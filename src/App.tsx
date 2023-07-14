@@ -5,7 +5,7 @@ import React, { useState, useRef } from "react";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
-import Chat from "./components/Chat";
+import Quiz from "./components/Quiz";
 
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
   return (
     <div>
       {room ? (
-        <Chat room={room}/>
+        <Quiz room={room}/>
 
       ) : (
         <div className="room">
