@@ -15,10 +15,18 @@ const Quiz = (props) => {
     const { room } = props;
     const [newMessage, setNewMessage] = useState('');
     const [messages, setMessages] = useState([]);
-
     const messagesRef = collection(db, 'messages');
+    const usersCollectionRef = collection(db, 'users');
 
+    
     useEffect(() => {
+        const [ users,setUsers ] = useState([]);
+
+        useEffect(() => {
+            const userCollectionRef = collection(db,"users");
+            console.log(userCollectionRef);
+        },[]);
+        
         const unsubscribe = onSnapshot(
             query(messagesRef, where('room', '==', room)),
             (snapshot) => {
@@ -31,7 +39,6 @@ const Quiz = (props) => {
                 setMessages(updatedMessages);
             }
         );
-
         return () => unsubscribe();
     }, [room]);
 
@@ -78,6 +85,11 @@ const Quiz = (props) => {
     const [showScore, setShowScore] = useState(false);
     const [score, setScore] = useState(0);
 
+
+        const buttonQuestion = () =>{
+            alert("clicked");
+        }
+
     const handleAnswerButtonClick = (isCorrect) => {
         if (isCorrect) {
             alert('正解です');
@@ -90,11 +102,32 @@ const Quiz = (props) => {
 
         if (nextQuestion < questions.length) {
             setCurrentQuestion(nextQuestion);
+            PointHide(nextQuestion);
         } else {
             setShowScore(true);
             props.getPointValue(score);
+            PointHide(nextQuestion);
         }
     };
+
+    const PointHide = (nextQuestion) =>{
+        if(nextQuestion>=1){
+            console.log("hey");
+            return(
+                <form onSubmit={handleSubmit} className="new-message-form">
+                <input
+                    className="new-message-input"
+                    onChange={handleSubmit}
+                    value={score}
+                />
+                <button type="submit" className="send-button">
+                    送信
+                </button>
+            </form>
+            )
+
+        }
+    }
 
     return (
         <div className="App">
@@ -103,6 +136,7 @@ const Quiz = (props) => {
                     お疲れ様でした!
                     <br />
                     <span className="correct">3問中{score}問</span>正解です
+                    <button onClick={handleSubmit}>送信</button>
                 </p>
             ) : (
                 <Answer
@@ -113,18 +147,10 @@ const Quiz = (props) => {
             )}
             <div className="chat-app">
                 {messages.map((message) => (
-                    <p key={message.id}>{message.text}</p>
+                    <p key={message.id}>
+                        <p>{message.createdAt} </p>
+                    </p>
                 ))}
-                <form onSubmit={handleSubmit} className="new-message-form">
-                    <input
-                        className="new-message-input"
-                        onChange={(e) => setScore(parseInt(e.target.value))}
-                        value={score}
-                    />
-                    <button type="submit" className="send-button">
-                        送信
-                    </button>
-                </form>
             </div>
         </div>
     );
