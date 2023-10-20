@@ -103,7 +103,6 @@ const Quiz = (props) => {
                     お疲れ様でした!
                     <br />
                     <span className="correct">3問中{score}問</span>正解です
-                    <button onClick={handleSubmit}>送信</button>
                 </p>
             ) : (
                 <Answer
@@ -114,10 +113,18 @@ const Quiz = (props) => {
             )}
             <div className="chat-app">
                 {messages.map((message) => (
-                    <p key={message.id}>
-                        <p>{message.text}</p>
-                    </p>
+                    <p key={message.id}>{message.text}</p>
                 ))}
+                <form onSubmit={handleSubmit} className="new-message-form">
+                    <input
+                        className="new-message-input"
+                        onChange={(e) => setScore(parseInt(e.target.value))}
+                        value={score}
+                    />
+                    <button type="submit" className="send-button">
+                        送信
+                    </button>
+                </form>
             </div>
         </div>
     );
