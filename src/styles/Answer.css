@@ -1,0 +1,30 @@
+.body{
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 222, 1);
+}
+.question{
+    text-align:center;
+    padding:30px 0;
+    font-family: fantasy;
+    font-size: 2vmax;
+}
+
+.title{
+    font-family: 'Trebuchet MS',sans-serif;
+}
+
+.question2{
+    text-align:center;
+    padding:20px 0
+}
+
+.box2 {
+    font-weight: bold;
+    color: #000;/*文字色*/
+    background: #FFF;
+    border: solid px #B2EBF2;/*線*/
+    border-width: 5pt;
+    border-radius: 10px;/*角の丸み*/
+    margin: 5px;
+}
