@@ -135,7 +135,6 @@ const Quiz = (props) => {
     
 
 
-    //値を取得できた。ランキング形式にどうやってするか
     const questions = [
         {
             questionText: '化け物は？',
@@ -199,7 +198,9 @@ const Quiz = (props) => {
         <div>
         <h1>ランキング</h1>
         <ul>
-            {pointlist.map((item, index) => (
+            {pointlist
+            .slice(0,5)
+            .map((item, index) => (
             <li key={index}>
                 プレイヤー名: {item.user}, スコア: {item.text}
             </li>
