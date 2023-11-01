@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { cloneElement, useEffect, useState } from 'react';
 import Answer from './Answer';
 import {
     addDoc,
@@ -7,6 +7,10 @@ import {
     onSnapshot,
     query,
     where,
+    getDoc,
+    doc,
+    setDoc,
+    getDocs,
 } from 'firebase/firestore';
 import { auth, db } from '../firebase-config';
 import '../styles/Chat.css';
@@ -17,6 +21,8 @@ const Quiz = (props) => {
     const [messages, setMessages] = useState([]);
 
     const messagesRef = collection(db, 'messages');
+    const pointRef = collection(db, "Point");
+    const [pointlist, setPointlist] = useState([]);
 
     useEffect(() => {
         const unsubscribe = onSnapshot(
@@ -47,6 +53,89 @@ const Quiz = (props) => {
         setNewMessage('');
     };
 
+    //ai
+    useEffect(() => {
+            // ランキング情報を取得するコード（pointlistを取得）
+            const fetchData = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'Point'));
+                const pointlist = [];
+                querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                pointlist.push(data);
+                });
+                pointlist.sort((a, b) => b.text - a.text); // ポイントで降順にソート
+                setPointlist(pointlist);
+            } catch (error) {
+                console.error("データの取得に失敗:", error);
+            }
+            };
+            fetchData();
+        }, []);
+
+
+    const handleSub = async (e) => {
+        e.preventDefault();
+        const data = {
+            text: score.toString(),
+            createAt: serverTimestamp(),
+            user: auth.currentUser?.displayName,
+            room
+        };
+        await addDoc(collection(db, "Point"), data);
+    }
+        
+    // Firestoreからデータを取得してランキングデータを更新
+    const fetchRankingData = async () => {
+        try {
+        const querySnapshot = await getDocs(collection(db, 'Point'));
+        const data = [];
+        querySnapshot.forEach((doc) => {
+            data.push(doc.data());
+        });
+        data.sort((a, b) => b.text - a.text);
+        setPointlist(data);
+        } catch (error) {
+        console.error('データの取得に失敗:', error);
+        }
+    };
+
+        // コンポーネントがマウントされたときにデータを取得
+    useEffect(() => {
+        fetchRankingData();
+        // Firestoreのデータ変更をリアルタイムで監視
+        const unsubscribe = onSnapshot(query(collection(db, 'Point')), (snapshot) => {
+        fetchRankingData(); // データが変更されたときに再度データを取得
+        });
+        return () => unsubscribe(); // コンポーネントがアンマウントされるときに監視を解除
+    }, []);
+
+
+
+
+    const rankSubmit = async (e) => {
+        try{
+            e.preventDefault();
+            const querySnapshot = await getDocs(pointRef);
+            const pointlist = [];
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                const playscore = data.text;
+                const player = data.user; // "text" フィールドの値を取得
+                console.log("プレイヤー名：",player,"スコア：",playscore);
+
+                pointlist.push(playscore);
+                pointlist.sort((a, b) => b.text - a.text);
+            });
+            console.log("pointlist",pointlist);
+        }catch(error){
+            console.error("データの取得に失敗！")
+        }
+        }
+    
+
+
+    //値を取得できた。ランキング形式にどうやってするか
     const questions = [
         {
             questionText: '化け物は？',
@@ -78,6 +167,7 @@ const Quiz = (props) => {
     const [showScore, setShowScore] = useState(false);
     const [score, setScore] = useState(0);
 
+
     const handleAnswerButtonClick = (isCorrect) => {
         if (isCorrect) {
             alert('正解です');
@@ -103,7 +193,21 @@ const Quiz = (props) => {
                     お疲れ様でした!
                     <br />
                     <span className="correct">3問中{score}問</span>正解です
-                    <button onClick={handleSubmit}>送信</button>
+                    <button onClick={handleSub}>送信</button>
+                    <button onClick={rankSubmit}>ランキング</button>
+                    {showScore && (
+        <div>
+        <h1>ランキング</h1>
+        <ul>
+            {pointlist.map((item, index) => (
+            <li key={index}>
+                プレイヤー名: {item.user}, スコア: {item.text}
+            </li>
+            ))}
+        </ul>
+        </div>
+    )}
+
                 </p>
             ) : (
                 <Answer
