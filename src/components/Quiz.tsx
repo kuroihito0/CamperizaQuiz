@@ -15,18 +15,10 @@ const Quiz = (props) => {
     const { room } = props;
     const [newMessage, setNewMessage] = useState('');
     const [messages, setMessages] = useState([]);
+
     const messagesRef = collection(db, 'messages');
-    const usersCollectionRef = collection(db, 'users');
 
-    
     useEffect(() => {
-        const [ users,setUsers ] = useState([]);
-
-        useEffect(() => {
-            const userCollectionRef = collection(db,"users");
-            console.log(userCollectionRef);
-        },[]);
-        
         const unsubscribe = onSnapshot(
             query(messagesRef, where('room', '==', room)),
             (snapshot) => {
@@ -39,6 +31,7 @@ const Quiz = (props) => {
                 setMessages(updatedMessages);
             }
         );
+
         return () => unsubscribe();
     }, [room]);
 
@@ -56,11 +49,12 @@ const Quiz = (props) => {
 
     const questions = [
         {
-            questionText: '化け物は？',
+            questionText: 'あるコンピュータ上で，異なる命令形式をもつ別のコンピュータで実行できる目的プログラムを生成する言語処理プログラムはどれか。',
             answerOptions: [
-                { answerText: 'あ', isCorrect: true },
-                { answerText: 'い', isCorrect: false },
-                { answerText: 'なんだろうな', isCorrect: false },
+                { answerText: 'エミュレータ', isCorrect: true },
+                { answerText: 'クロスコンパイラ', isCorrect: false },
+                { answerText: '最適化コンパイラ', isCorrect: false },
+                { answerText: 'ジェネレータ', isCorrect: false },
             ],
         },
         {
@@ -69,6 +63,7 @@ const Quiz = (props) => {
                 { answerText: 'なんだろうな', isCorrect: false },
                 { answerText: ' カブ', isCorrect: false },
                 { answerText: '鳥', isCorrect: true },
+                { answerText: 'なんだろうな', isCorrect: false },
             ],
         },
         {
@@ -77,6 +72,7 @@ const Quiz = (props) => {
                 { answerText: 'なんだろうな', isCorrect: false },
                 { answerText: 'たい焼き', isCorrect: true },
                 { answerText: '🎈', isCorrect: false },
+                { answerText: 'なんだろうな', isCorrect: false },
             ],
         },
     ];
@@ -84,11 +80,6 @@ const Quiz = (props) => {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [showScore, setShowScore] = useState(false);
     const [score, setScore] = useState(0);
-
-
-        const buttonQuestion = () =>{
-            alert("clicked");
-        }
 
     const handleAnswerButtonClick = (isCorrect) => {
         if (isCorrect) {
@@ -102,32 +93,11 @@ const Quiz = (props) => {
 
         if (nextQuestion < questions.length) {
             setCurrentQuestion(nextQuestion);
-            PointHide(nextQuestion);
         } else {
             setShowScore(true);
             props.getPointValue(score);
-            PointHide(nextQuestion);
         }
     };
-
-    const PointHide = (nextQuestion) =>{
-        if(nextQuestion>=1){
-            console.log("hey");
-            return(
-                <form onSubmit={handleSubmit} className="new-message-form">
-                <input
-                    className="new-message-input"
-                    onChange={handleSubmit}
-                    value={score}
-                />
-                <button type="submit" className="send-button">
-                    送信
-                </button>
-            </form>
-            )
-
-        }
-    }
 
     return (
         <div className="App">
@@ -145,13 +115,6 @@ const Quiz = (props) => {
                     currentQuestion={currentQuestion}
                 />
             )}
-            <div className="chat-app">
-                {messages.map((message) => (
-                    <p key={message.id}>
-                        <p>{message.createdAt} </p>
-                    </p>
-                ))}
-            </div>
         </div>
     );
 };

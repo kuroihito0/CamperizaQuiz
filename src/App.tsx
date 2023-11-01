@@ -27,7 +27,9 @@ function App() {
       {room ? (
         <Quiz room={room}/>
 
-      ) : (
+      ) :
+      //入室画面
+      (
         <div className="room">
           <label>Enter Room Name:</label>
           <input ref={roomInputRef}/>
