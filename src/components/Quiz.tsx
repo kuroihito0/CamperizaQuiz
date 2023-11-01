@@ -17,12 +17,10 @@ import '../styles/Chat.css';
 
 const Quiz = (props) => {
     const { room } = props;
-    const [newMessage, setNewMessage] = useState('');
     const [messages, setMessages] = useState([]);
-
     const messagesRef = collection(db, 'messages');
-    const pointRef = collection(db, "Point");
     const [pointlist, setPointlist] = useState([]);
+    const [isSubmitted,setIsSubmitted] = useState(false);
 
     useEffect(() => {
         const unsubscribe = onSnapshot(
@@ -40,7 +38,7 @@ const Quiz = (props) => {
 
         return () => unsubscribe();
     }, [room]);
-
+/*
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -52,7 +50,7 @@ const Quiz = (props) => {
         });
         setNewMessage('');
     };
-
+*/
     //ai
     useEffect(() => {
             // ランキング情報を取得するコード（pointlistを取得）
@@ -74,16 +72,22 @@ const Quiz = (props) => {
         }, []);
 
 
-    const handleSub = async (e) => {
-        e.preventDefault();
-        const data = {
-            text: score.toString(),
-            createAt: serverTimestamp(),
-            user: auth.currentUser?.displayName,
-            room
-        };
-        await addDoc(collection(db, "Point"), data);
+    const handleSubmission = async () => {
+        if(!isSubmitted){
+            setIsSubmitted(true);
+            const handleSub = async (e) => {
+                e.preventDefault();
+                const data = {
+                    text: score.toString(),
+                    createAt: serverTimestamp(),
+                    user: auth.currentUser?.displayName,
+                    room
+                };
+                await addDoc(collection(db, "Point"), data);
+            } 
+        }
     }
+
         
     // Firestoreからデータを取得してランキングデータを更新
     const fetchRankingData = async () => {
@@ -112,7 +116,7 @@ const Quiz = (props) => {
 
 
 
-
+/*
     const rankSubmit = async (e) => {
         try{
             e.preventDefault();
@@ -132,7 +136,7 @@ const Quiz = (props) => {
             console.error("データの取得に失敗！")
         }
         }
-    
+    */
 
 
     const questions = [
@@ -192,8 +196,7 @@ const Quiz = (props) => {
                     お疲れ様でした!
                     <br />
                     <span className="correct">3問中{score}問</span>正解です
-                    <button onClick={handleSub}>送信</button>
-                    <button onClick={rankSubmit}>ランキング</button>
+                    <button onClick={handleSubmission} disabled={isSubmitted} >送信</button>
                     {showScore && (
         <div>
         <h1>ランキング</h1>
