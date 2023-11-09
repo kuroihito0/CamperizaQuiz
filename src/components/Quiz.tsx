@@ -180,7 +180,7 @@ const Quiz = (props) => {
 
     const questions = [
         {
-            questionText: 問題文,
+            questionText: "ikemen",
             answerOptions: [
                 { answerText: 'あ', isCorrect: true },
                 { answerText: 'い', isCorrect: false },
