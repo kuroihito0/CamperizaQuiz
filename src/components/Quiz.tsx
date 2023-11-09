@@ -1,4 +1,4 @@
-import { cloneElement, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Answer from './Answer';
 import {
     addDoc,
@@ -11,6 +11,8 @@ import {
     doc,
     setDoc,
     getDocs,
+    queryEqual,
+    QuerySnapshot,
 } from 'firebase/firestore';
 import { auth, db } from '../firebase-config';
 import '../styles/Chat.css';
@@ -22,7 +24,8 @@ const Quiz = (props) => {
     const [pointlist, setPointlist] = useState([]);
     const [isSubmitted,setIsSubmitted] = useState(false);
 
-    useEffect(() => {
+
+    /*useEffect(() => {
         const unsubscribe = onSnapshot(
             query(messagesRef, where('room', '==', room)),
             (snapshot) => {
@@ -51,7 +54,8 @@ const Quiz = (props) => {
         setNewMessage('');
     };
 */
-    //ai
+
+
     useEffect(() => {
             // ランキング情報を取得するコード（pointlistを取得）
             const fetchData = async () => {
@@ -88,7 +92,7 @@ const Quiz = (props) => {
         }
     }
 
-        
+
     // Firestoreからデータを取得してランキングデータを更新
     const fetchRankingData = async () => {
         try {
@@ -114,8 +118,43 @@ const Quiz = (props) => {
         return () => unsubscribe(); // コンポーネントがアンマウントされるときに監視を解除
     }, []);
 
+    
+        let 問題ID = '';
+        let 問題文 = '';
+        let 解答 = '';
+        let 解説 = '';
+        let ア = "";
+        let イ = "";
+        let ウ = "";
+        let エ = "";
+        const getModaniData = async () => {
+            const technologyCollection = collection(db, 'Technology');
+            try {
+            const querySnapshot = await getDocs(technologyCollection); 
+            querySnapshot.forEach((doc) => {
+                問題ID = doc.data().問題ID;
+                問題文 = doc.data().問題文;
+                解答 = doc.data().解答;
+                解説 = doc.data().解説;
+                ア = doc.data().ア;
+                イ = doc.data().イ;
+                ウ = doc.data().ウ;
+                エ = doc.data().エ;
+            });
+                console.log('問題ID:', 問題ID);
+                console.log('問題文:', 問題文);
+                console.log('解答:', 解答);
+                console.log('解説:', 解説);
+                console.log('ア:', ア);
+                console.log('イ:',イ);
+                console.log('ウ:', ウ);
+                console.log('エ:', エ);
+            } catch (error) {
+            console.error('ドキュメントの取得に失敗:', error);
+            }
+        };
 
-
+    
 /*
     const rankSubmit = async (e) => {
         try{
@@ -141,7 +180,7 @@ const Quiz = (props) => {
 
     const questions = [
         {
-            questionText: '化け物は？',
+            questionText: 問題文,
             answerOptions: [
                 { answerText: 'あ', isCorrect: true },
                 { answerText: 'い', isCorrect: false },
@@ -174,7 +213,7 @@ const Quiz = (props) => {
     const handleAnswerButtonClick = (isCorrect) => {
         if (isCorrect) {
             alert('正解です');
-            setScore(score + 1);
+            setScore(score + 6);
         } else {
             alert('不正解です');
         }
@@ -189,6 +228,27 @@ const Quiz = (props) => {
         }
     };
 
+    const getRandomDocument = async () => {
+        // コレクション内のすべてのドキュメントを取得
+        const querySnapshot = await getDocs(collection(db, 'messages'));
+    
+        // ランダムなインデックスを生成
+        const randomIndex = Math.floor(Math.random() * querySnapshot.size);
+    
+        // ランダムなドキュメントを選択
+        const randomDoc = querySnapshot.docs[randomIndex];
+        return randomDoc.data();
+    };
+    
+    // ランダムなドキュメントを取得
+    getRandomDocument()
+        .then((data) => {
+            console.log('ランダムなドキュメントのデータ:', data);
+        })
+        .catch((error) => {
+            console.error('ドキュメントの取得に失敗:', error);
+        });
+
     return (
         <div className="App">
             {showScore ? (
@@ -197,6 +257,7 @@ const Quiz = (props) => {
                     <br />
                     <span className="correct">3問中{score}問</span>正解です
                     <button onClick={handleSubmission} disabled={isSubmitted} >送信</button>
+                    <button onClick={getModaniData}>テスト</button>
                     {showScore && (
         <div>
         <h1>ランキング</h1>

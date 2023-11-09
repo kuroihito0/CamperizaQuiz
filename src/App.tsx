@@ -1,10 +1,12 @@
 import './App.css'
 import { Auth } from "./components/Auth";
 import React, { useState, useRef } from "react";
+import { BrowserRouter as Router, Route, Routes,Link } from 'react-router-dom';
 
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
+import Home from "./components/Home";
 import Quiz from "./components/Quiz";
 
 
@@ -23,18 +25,10 @@ function App() {
   }
 
   return (
-    <div>
-      {room ? (
-        <Quiz room={room}/>
-
-      ) : (
-        <div className="room">
-          <label>Enter Room Name:</label>
-          <input ref={roomInputRef}/>
-          <button onClick={()=> {if(roomInputRef.current){setRoom(roomInputRef.current.value);}}}> Enter Chat</button>
-        </div>
-      )}
-    </div>
+    <Routes>
+    <Route path="/" element={<Home />}/>
+    <Route path="/Quiz" element={<Quiz />}/>
+</Routes>
   );
 
 }
