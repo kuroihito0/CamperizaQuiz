@@ -1,0 +1,28 @@
+.body{
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 222, 1);
+}
+
+
+.title {
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    margin: auto;
+    height: 150px;
+    text-align: center;
+    width: 70%;
+    font-family: Century Gothic;
+}
+
+.box {
+    color: #000;/*文字色*/
+    border: solid 2px black;
+    border-width: 5pt;
+    border-radius: 10px;/*角の丸み*/
+    margin: auto;
+    text-align: center;
+    width: 30%;
+    margin-bottom: 50px;
+}

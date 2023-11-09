@@ -6,6 +6,7 @@ import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 import Quiz from "./components/Quiz";
+import Home from "./components/Home";
 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
   if (!isAuth) {
     return (
       <div style={{ margin: "2em" }}>
-        <Auth setIsAuth={setIsAuth}/>
+        <Auth setIsAuth={setIsAuth} />
       </div>
     );
   }
@@ -25,17 +26,17 @@ function App() {
   return (
     <div>
       {room ? (
-        <Quiz room={room}/>
+        <Home/>
 
       ) :
-      //入室画面
-      (
-        <div className="room">
-          <label>Enter Room Name:</label>
-          <input ref={roomInputRef}/>
-          <button onClick={()=> {if(roomInputRef.current){setRoom(roomInputRef.current.value);}}}> Enter Chat</button>
-        </div>
-      )}
+        //入室画面
+        (
+          <div className="room">
+            <label>Enter Room Name:</label>
+            <input ref={roomInputRef} />
+            <button onClick={() => { if (roomInputRef.current) { setRoom(roomInputRef.current.value); } }}> Enter Chat</button>
+          </div>
+        )}
     </div>
   );
 

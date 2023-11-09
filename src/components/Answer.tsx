@@ -1,17 +1,19 @@
 import React from 'react';
 import '../styles/answer.css';
+import AnimatedComponent from './AnimatedComponent';
 
 const Answer = ({ handleAnswerButtonClick, questions, currentQuestion }) => {
     return (
         <div className='body'>
             <div className="title_box">
     <div className="title_box-body">
-        <h1 className='title'>第{currentQuestion + 1}問</h1>
+        <h2 className='title'>Q.{currentQuestion + 1}</h2>
     </div>
 </div>
-            <p className='question box2'>{questions[currentQuestion].questionText}</p>
+            <p className='question box'>{questions[currentQuestion].questionText}</p>
             <ul className=''>
                 {
+                    
                     questions[currentQuestion].answerOptions.map((answerOption, key) => (
                         <li className='question2 box2'
                             key={key}//key、12行目にkey={key}がありますがReactではliタグを付けるときは他と被らない番号をつけないといけないためにあります。

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { cloneElement, useEffect, useState } from 'react';
 import Answer from './Answer';
 import {
     addDoc,
@@ -7,16 +7,20 @@ import {
     onSnapshot,
     query,
     where,
+    getDoc,
+    doc,
+    setDoc,
+    getDocs,
 } from 'firebase/firestore';
-import { auth, db } from '../firebase-config';
+import { auth, db } from '../styles/firebase-config';
 import '../styles/Chat.css';
 
 const Quiz = (props) => {
     const { room } = props;
-    const [newMessage, setNewMessage] = useState('');
     const [messages, setMessages] = useState([]);
-
     const messagesRef = collection(db, 'messages');
+    const [pointlist, setPointlist] = useState([]);
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     useEffect(() => {
         const unsubscribe = onSnapshot(
@@ -34,24 +38,112 @@ const Quiz = (props) => {
 
         return () => unsubscribe();
     }, [room]);
+    /*
+        const handleSubmit = async (e) => {
+            e.preventDefault();
+    
+            await addDoc(messagesRef, {
+                text: score.toString(),
+                createdAt: serverTimestamp(),
+                user: auth.currentUser?.displayName,
+                room,
+            });
+            setNewMessage('');
+        };
+    */
+    //ai
+    useEffect(() => {
+        // ランキング情報を取得するコード（pointlistを取得）
+        const fetchData = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'Point'));
+                const pointlist = [];
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    pointlist.push(data);
+                });
+                pointlist.sort((a, b) => b.text - a.text); // ポイントで降順にソート
+                setPointlist(pointlist);
+            } catch (error) {
+                console.error("データの取得に失敗:", error);
+            }
+        };
+        fetchData();
+    }, []);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
 
-        await addDoc(messagesRef, {
-            text: score.toString(),
-            createdAt: serverTimestamp(),
-            user: auth.currentUser?.displayName,
-            room,
-        });
-        setNewMessage('');
+    const handleSubmission = async () => {
+        if (!isSubmitted) {
+            setIsSubmitted(true);
+            const handleSub = async (e) => {
+                e.preventDefault();
+                const data = {
+                    text: score.toString(),
+                    createAt: serverTimestamp(),
+                    user: auth.currentUser?.displayName,
+                    room
+                };
+                await addDoc(collection(db, "Point"), data);
+            }
+        }
+    }
+
+
+    // Firestoreからデータを取得してランキングデータを更新
+    const fetchRankingData = async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, 'Point'));
+            const data = [];
+            querySnapshot.forEach((doc) => {
+                data.push(doc.data());
+            });
+            data.sort((a, b) => b.text - a.text);
+            setPointlist(data);
+        } catch (error) {
+            console.error('データの取得に失敗:', error);
+        }
     };
+
+    // コンポーネントがマウントされたときにデータを取得
+    useEffect(() => {
+        fetchRankingData();
+        // Firestoreのデータ変更をリアルタイムで監視
+        const unsubscribe = onSnapshot(query(collection(db, 'Point')), (snapshot) => {
+            fetchRankingData(); // データが変更されたときに再度データを取得
+        });
+        return () => unsubscribe(); // コンポーネントがアンマウントされるときに監視を解除
+    }, []);
+
+
+
+    /*
+        const rankSubmit = async (e) => {
+            try{
+                e.preventDefault();
+                const querySnapshot = await getDocs(pointRef);
+                const pointlist = [];
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const playscore = data.text;
+                    const player = data.user; // "text" フィールドの値を取得
+                    console.log("プレイヤー名：",player,"スコア：",playscore);
+    
+                    pointlist.push(playscore);
+                    pointlist.sort((a, b) => b.text - a.text);
+                });
+                console.log("pointlist",pointlist);
+            }catch(error){
+                console.error("データの取得に失敗！")
+            }
+            }
+        */
+
 
     const questions = [
         {
-            questionText: 'あるコンピュータ上で，異なる命令形式をもつ別のコンピュータで実行できる目的プログラムを生成する言語処理プログラムはどれか。',
+            questionText: '日本工学院一のハンサムボーイは誰でしょう',
             answerOptions: [
-                { answerText: 'エミュレータ', isCorrect: true },
+                { answerText: '石田雨竜', isCorrect: true },
                 { answerText: 'クロスコンパイラ', isCorrect: false },
                 { answerText: '最適化コンパイラ', isCorrect: false },
                 { answerText: 'ジェネレータ', isCorrect: false },
@@ -63,7 +155,6 @@ const Quiz = (props) => {
                 { answerText: 'なんだろうな', isCorrect: false },
                 { answerText: ' カブ', isCorrect: false },
                 { answerText: '鳥', isCorrect: true },
-                { answerText: 'なんだろうな', isCorrect: false },
             ],
         },
         {
@@ -72,7 +163,6 @@ const Quiz = (props) => {
                 { answerText: 'なんだろうな', isCorrect: false },
                 { answerText: 'たい焼き', isCorrect: true },
                 { answerText: '🎈', isCorrect: false },
-                { answerText: 'なんだろうな', isCorrect: false },
             ],
         },
     ];
@@ -80,6 +170,7 @@ const Quiz = (props) => {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [showScore, setShowScore] = useState(false);
     const [score, setScore] = useState(0);
+
 
     const handleAnswerButtonClick = (isCorrect) => {
         if (isCorrect) {
@@ -106,7 +197,22 @@ const Quiz = (props) => {
                     お疲れ様でした!
                     <br />
                     <span className="correct">3問中{score}問</span>正解です
-                    <button onClick={handleSubmit}>送信</button>
+                    <button onClick={handleSubmission} disabled={isSubmitted} >送信</button>
+                    {showScore && (
+                        <div>
+                            <h1>ランキング</h1>
+                            <ul>
+                                {pointlist
+                                    .slice(0, 5)
+                                    .map((item, index) => (
+                                        <li key={index}>
+                                            プレイヤー名: {item.user}, スコア: {item.text}
+                                        </li>
+                                    ))}
+                            </ul>
+                        </div>
+                    )}
+
                 </p>
             ) : (
                 <Answer
@@ -115,6 +221,13 @@ const Quiz = (props) => {
                     currentQuestion={currentQuestion}
                 />
             )}
+            <div className="chat-app">
+                {messages.map((message) => (
+                    <p key={message.id}>
+                        <p>{message.text}</p>
+                    </p>
+                ))}
+            </div>
         </div>
     );
 };
