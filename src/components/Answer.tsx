@@ -10,12 +10,12 @@ const Answer = ({ handleAnswerButtonClick, questions, currentQuestion }) => {
         <h2 className='title'>Q.{currentQuestion + 1}</h2>
     </div>
 </div>
-            <p className='question box'>{questions[currentQuestion].questionText}</p>
+            <p className='box4 question　'>{questions[currentQuestion].questionText}</p>
             <ul className=''>
                 {
                     
                     questions[currentQuestion].answerOptions.map((answerOption, key) => (
-                        <li className='question2 box2'
+                        <li className='question2 box2　'
                             key={key}//key、12行目にkey={key}がありますがReactではliタグを付けるときは他と被らない番号をつけないといけないためにあります。
                             onClick={() => handleAnswerButtonClick(answerOption.isCorrect)}>{answerOption.answerText}
                         </li>)

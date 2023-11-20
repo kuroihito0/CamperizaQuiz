@@ -8,6 +8,8 @@ const cookies = new Cookies();
 
 import Home from "./components/Home";
 import Quiz from "./components/Quiz";
+import Title from "./components/title";
+import Start from "./components/start";
 
 
 function App() {
@@ -28,6 +30,8 @@ function App() {
     <Routes>
     <Route path="/" element={<Home />}/>
     <Route path="/Quiz" element={<Quiz />}/>
+    <Route path="/title" element={<Title />}></Route>
+    <Route path='/start' element={<Start />}></Route>
 </Routes>
   );
 

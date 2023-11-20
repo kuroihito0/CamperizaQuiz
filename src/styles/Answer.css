@@ -26,7 +26,7 @@ ul{
     padding:20px 0
 }
 
-.box {
+.bo3 {
     justify-content: center;
     align-items: center;
     font-weight: bold;
@@ -40,7 +40,7 @@ ul{
     text-align: center;
     width: 70%;
     margin-bottom: 50px;
-
+    
 }
 
 .box2 {
@@ -55,5 +55,21 @@ ul{
     width: 40%;
     margin-bottom: 25px;
     margin-right: 120px;
+    
+}
+
+.box4 {
+    float: center;
+    font-weight: bold;
+    color: #000;/*文字色*/
+    border: solid 2px black;
+    border-width: 5pt;
+    border-radius: 10px;/*角の丸み*/
+    background: #FFF;
+    margin: auto;
+    width: 70%;
+    margin-bottom: 6%;
+    height: 150px;
+    
     
 }

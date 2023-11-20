@@ -8,6 +8,7 @@ function Home() {
             <ul>
                 <li><Link to="/">ホーム</Link></li>
                 <li><Link to="Quiz">クイズ</Link></li>
+                <li><Link to="title">雨竜</Link></li>
             </ul>
     </div>
     );
