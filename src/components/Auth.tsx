@@ -15,9 +15,9 @@ export const Auth = (props) =>{
         }catch(err){
             console.error(err);
         }
-
     };
 
+    //タイトル画面
     return <div className="auth">
         <p>Sign In With Google To Continue</p>
         <button onClick={signInWithGoogle}>Sign In With Google</button>

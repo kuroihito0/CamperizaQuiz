@@ -1,12 +1,12 @@
 import './App.css';
 import { Auth } from "./components/Auth";
 import React, { useState, useRef } from "react";
-import Papa from 'papaparse';
-import { useDropzone } from 'react-dropzone';
+import { BrowserRouter as Router, Route, Routes,Link } from 'react-router-dom';
 
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
+import Home from "./components/Home";
 import Quiz from "./components/Quiz";
 
 interface CSVRow {
@@ -48,32 +48,13 @@ function App() {
   }
 
   return (
-    <div>
-      {room ? (
-        <Quiz room={room}/>
-      ) : (
-        <div>
-          <div {...getRootProps({ className: 'dropzone' })}>
-            <input {...getInputProps()} />
-            <p>Drag & drop a CSV file here, or click to select one</p>
-          </div>
-
-          {jsonResult && (
-            <div>
-              <h2>JSON Result</h2>
-              <pre>{JSON.stringify(jsonResult, null, 2)}</pre>
-            </div>
-          )}
-          
-          <div className="room">
-            <label>Enter Room Name:</label>
-            <input ref={roomInputRef}/>
-            <button onClick={()=> {if(roomInputRef.current){setRoom(roomInputRef.current.value);}}}> Enter Chat</button>
-          </div>
-        </div>
-      )}
-    </div>
+    <Routes>
+    <Route path="/" element={<Home />}/>
+    <Route path="/Quiz" element={<Quiz />}/>
+</Routes>
   );
 }
 
-export default App;
+
+
+export default App

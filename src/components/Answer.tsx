@@ -1,21 +1,28 @@
 import React from 'react';
+import '../styles/answer.css';
+import AnimatedComponent from './AnimatedComponent';
 
 const Answer = ({ handleAnswerButtonClick, questions, currentQuestion }) => {
     return (
-        <>
-            <h1>3択クイズ</h1>
-            <h2><span>第{currentQuestion + 1}問</span><br></br>問題:{questions[currentQuestion].questionText}</h2>
-            <ul>
+        <div className='body'>
+            <div className="title_box">
+    <div className="title_box-body">
+        <h2 className='title'>Q.{currentQuestion + 1}</h2>
+    </div>
+</div>
+            <p className='question box'>{questions[currentQuestion].questionText}</p>
+            <ul className=''>
                 {
+                    
                     questions[currentQuestion].answerOptions.map((answerOption, key) => (
-                        <li
+                        <li className='question2 box2'
                             key={key}//key、12行目にkey={key}がありますがReactではliタグを付けるときは他と被らない番号をつけないといけないためにあります。
                             onClick={() => handleAnswerButtonClick(answerOption.isCorrect)}>{answerOption.answerText}
                         </li>)
                     )
                 }
             </ul>
-        </>
+        </div>
     );
 };
 
