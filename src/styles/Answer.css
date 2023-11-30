@@ -25,6 +25,8 @@ ul{
 .question2{
     text-align:center;
     padding:20px 0
+    
+    
 }
 
 a.btn-border:hover {
@@ -63,9 +65,9 @@ a.btn-border {
     border-radius: 10px;/*角の丸み*/
     background: #FFF;
     margin: auto;
-    width: 50%;
+    width: 60%;
     margin-bottom: 6%;
-    height: 130px;
+    height: 150px;
 }
 
 .btn,
