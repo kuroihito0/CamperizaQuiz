@@ -199,6 +199,35 @@ const Quiz = (props) => {
         }
     ]*/
 
+<<<<<<< HEAD
+=======
+    const questions = [
+        {
+            questionText: "ikemen",
+            answerOptions: [
+                { answerText: 'あ', isCorrect: true },
+                { answerText: 'い', isCorrect: false },
+                { answerText: 'なんだろうな', isCorrect: false },
+            ],
+        },
+        {
+            questionText: 'この難易度は？',
+            answerOptions: [
+                { answerText: 'なんだろうな', isCorrect: false },
+                { answerText: ' カブ', isCorrect: false },
+                { answerText: '鳥', isCorrect: true },
+            ],
+        },
+        {
+            questionText: 'おみそしるは？',
+            answerOptions: [
+                { answerText: 'なんだろうな', isCorrect: false },
+                { answerText: 'たい焼き', isCorrect: true },
+                { answerText: '🎈', isCorrect: false },
+            ],
+        },
+    ];
+>>>>>>> 6a71c8962eb438afe595ff6b972ee32aaa89fe74
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [showScore, setShowScore] = useState(false);
