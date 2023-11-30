@@ -34,16 +34,22 @@ export default function App() {
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{
-                        duration: 0.8,
-                        delay: 0.5,
+                        duration: 0.3,
                         ease: [0, 0.71, 0.2, 1.01],
+                        scale: {
+                            type: "spring",
+                            damping: 5,
+                            stiffness: 800,
+                            restDelta: 0.001
+                        }
                     }}
-                >
-                    <h1 className="title">stuiz</h1>
+                        >
+                        <h1 className="title">stuiz</h1>
                 </motion.div>
-            )}
+    )
+}
 
-        </div>
+        </div >
 
     );
 }

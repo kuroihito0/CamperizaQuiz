@@ -1,8 +1,9 @@
 import "../styles/start.css";
 import { motion, useUnmountEffect } from "framer-motion";
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes,Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Quiz from "./Quiz";
+
 
 export default function App() {
     const [isVisible, setIsVisible] = useState(false);
@@ -15,12 +16,19 @@ export default function App() {
                 <h1 className="title">stuiz</h1>
             </div>
             <div>
-            <Link to="/Quiz" className="btn btn-border">
-                    すたあぁつ
-                    </Link>
-                
-            </div>
-                
+                <motion.div whileHover={{
+                    scale: 1.2,
+                    transition: { duration: 1 },
+                }}
+                    whileTap={{ scale: 0.9 }}
+                    
+                >
+                    
+                <Link to="/Quiz" className="btn btn-border">
+                    START
+                </Link>
+            </motion.div>
         </div>
+        </div >
     );
 }

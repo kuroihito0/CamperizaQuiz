@@ -1,37 +1,46 @@
 import React from 'react';
 import '../styles/answer.css';
-import AnimatedComponent from './AnimatedComponent';
+import { motion, useUnmountEffect } from "framer-motion";
 
 const Answer = ({ handleAnswerButtonClick, questions, currentQuestion }) => {
     return (
         <div className='body'>
             <div className="title_box">
-    <div className="title_box-body">
-        <h2 className='title'>Q.{currentQuestion + 1}</h2>
-    </div>
-</div>
-            <p className='box4 question　'>{questions[currentQuestion].questionText}</p>
+                <div className="title_box-body">
+                    <h2 className='title'>Q.{currentQuestion + 1}</h2>
+                </div>
+            </div>
+            <p className='box4 question'>{questions[currentQuestion].questionText}</p>
+            
+            
             <ul className=''>
                 {
-                    
-                    questions[currentQuestion].answerOptions.map((answerOption, key) => (
-                        <li className='question2 box2　'
-                            key={key}//key、12行目にkey={key}がありますがReactではliタグを付けるときは他と被らない番号をつけないといけないためにあります。
-                            onClick={() => handleAnswerButtonClick(answerOption.isCorrect)}>{answerOption.answerText}
-                        </li>)
+                questions[currentQuestion].answerOptions.map((answerOption, key) => (
+                    <motion.li className='question2 box2 btn-border'
+                    whileHover={{
+                        scale: 1.1,
+                        transition: { duration: 1 },
+                    }}
+                        whileTap={{ scale: 0.9 }}
+                        
+                        key={key}
+                        onClick={() => handleAnswerButtonClick(answerOption.isCorrect)}>{answerOption.answerText}
+                    </motion.li>)
                     )
+                    
                 }
             </ul>
+            
         </div>
     );
 };
 
 export default Answer;
 
-//ここでいう「回答オプション」とは、クイズの各質問に対する選択肢や回答のことを指します。 
+//ここでいう「回答オプション」とは、クイズの各質問に対する選択肢や回答のことを指します。
 
 //１０行目　questions[currentQuestion].answerOptions:
-//          現在のクイズの質問に関連する回答オプションの配列を参照します。questionsは質問のリストであり、currentQuestionは現在表示されている質問のインデックスです。 
+//          現在のクイズの質問に関連する回答オプションの配列を参照します。questionsは質問のリストであり、currentQuestionは現在表示されている質問のインデックスです。
 
 // １０行目 .map((answerOption, key) =>：
 //          answerOptions配列の各要素に対して、指定された関数を実行します。answerOptionは現在の回答オプションを表し、keyはループ内での要素の一意の識別子です。

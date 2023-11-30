@@ -185,6 +185,7 @@ const Quiz = (props) => {
                 { answerText: 'あ', isCorrect: true },
                 { answerText: 'い', isCorrect: false },
                 { answerText: 'なんだろうな', isCorrect: false },
+                { answerText: 'ええ', isCorrect: false },
             ],
         },
         {
