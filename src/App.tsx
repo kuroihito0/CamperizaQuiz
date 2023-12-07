@@ -5,12 +5,13 @@ import { BrowserRouter as Router, Route, Routes,Link } from 'react-router-dom';
 
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
-
 import Home from "./components/Home";
 import Quiz from "./components/Quiz";
 import Title from "./components/title";
 import Start from "./components/start";
 import Incorrect from './components/Incorrect';
+
+
 
 
 function App() {
@@ -30,7 +31,7 @@ function App() {
   return (
     <Routes>
     <Route path="/" element={<Home />}/>
-    <Route path="/Quiz" element={<Quiz />}/>
+    <Route path="/Quiz" element={<Quiz />}></Route>
     <Route path="/title" element={<Title />}></Route>
     <Route path='/start' element={<Start />}></Route>
     <Route path='/Incorrect' element={<Incorrect/>}></Route>
