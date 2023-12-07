@@ -22,7 +22,7 @@ body {
     --background: var(--orange);
     --accent: var(--white);
     width: 60%; /* 例: 要素の幅を80%に制限 */
-    background: rgba(255, 255, 222, 1);
+    background: rgb(96, 0, 0);
     color: var(--accent);
 }
 

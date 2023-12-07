@@ -10,6 +10,7 @@ import Home from "./components/Home";
 import Quiz from "./components/Quiz";
 import Title from "./components/title";
 import Start from "./components/start";
+import Incorrect from './components/Incorrect';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
     <Route path="/Quiz" element={<Quiz />}/>
     <Route path="/title" element={<Title />}></Route>
     <Route path='/start' element={<Start />}></Route>
+    <Route path='/Incorrect' element={<Incorrect/>}></Route>
 </Routes>
   );
 

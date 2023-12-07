@@ -27,44 +27,36 @@ const Answer = ({ handleAnswerButtonClick, questions, currentQuestion, getModani
     // ランダムに質問をシャッフル
     const shuffledQuestions = shuffleArray(questions);
 
+
+
     return (
         <div className='body'>
             <div className="title_box">
                 <div className="title_box-body">
-                    {showResults}(
-                        <div>
-                            
-                            <h2 className='title'>Q.{currentQuestion + 1}</h2>
-                            <p className='box4 question'>{shuffledQuestions[currentQuestion].questionText}</p>
-                            <ul className=''>
-                {
-                shuffledQuestions[currentQuestion].answerOptions.map((answerOption, key) => (
-                    <motion.li className='question2 box2 btn-border'
-                    whileHover={{
-                        scale: 1.1,
-                        transition: { duration: 1 },
-                    }}
-                        whileTap={{ scale: 0.9 }}
-                        
-                        key={key}
-                        onClick={() => handleAnswerButtonClick(answerOption.isCorrect)}>{answerOption.answerText}
-                    </motion.li>)
-                    )
-                    
-                }
-            </ul>
-                        </div>
-                    )
-
+                    </div>
+                    {showResults ? (
+                    <div>
+                        <h2 className='title'>Q.{currentQuestion + 1}</h2>
+                        <p className='box4 question'>{shuffledQuestions[currentQuestion].questionText}</p>
+                        <ul className=''>
+                            {shuffledQuestions[currentQuestion].answerOptions.map((answerOption, key) => (
+                                    <motion.li className='question2 box2 btn-border'
+                                        whileHover={{
+                                            scale: 1.1,
+                                            transition: { duration: 1 },
+                                        }}
+                                        whileTap={{ scale: 0.9 }}
+                                        key={key}
+                                        onClick={() => handleAnswerButtonClick(answerOption.isCorrect,shuffledQuestions[currentQuestion].questionID)}>
+                                            {answerOption.answerText}
+                                    </motion.li>))}
+                        </ul>
+                    </div>
+                    ) : (
+                        <p>Loading...</p>
+                    )}
                 </div>
             </div>
-
-            
-            
-            
-            
-            
-        </div>
     );
 };
 
