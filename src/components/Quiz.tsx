@@ -11,8 +11,11 @@ import {
     setDoc,
     getDocs
 } from 'firebase/firestore';
+import { motion, useUnmountEffect } from "framer-motion";
+import maru from "../img/maru.png"
 import { auth, db } from '../firebase-config';
 import '../styles/Chat.css';
+
 
 const Quiz = (props) => {
 
@@ -234,7 +237,6 @@ const Quiz = (props) => {
             const docRef = doc(db,"InCorrect",stringId);
 
             const docSnapshot = await getDoc(docRef);
-
 
             if(docSnapshot.exists()){
                 const currentCount = docSnapshot.data().count || 0;

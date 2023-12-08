@@ -25,6 +25,8 @@ function Home() {
                 <div><Link to="/">ホーム</Link></div>
                 <div><Link to="Quiz">クイズ</Link></div>
                 <div><Link to="Incorrect">間違えやすい問題</Link></div>
+                <li><Link to="/Importer">問題を追加</Link></li>
+                <li><Link to="/WordHint">用語を覚えよう</Link></li>
             </motion.div>
             )}
         </div>

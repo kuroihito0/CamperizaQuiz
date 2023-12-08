@@ -1,3 +1,29 @@
-body{
-    color: black;
+body {
+    position: absolute;
+    top: 0;
+    left: 20%;
+    bottom: 0;
+    right: 20%;
+    display: none;
+    align-items: center;
+    justify-content: initial;
+    --black: #000000;
+    --ash-black: #222;
+    --white: #fafafa;
+    --sky: #00ccff;
+    --green: #22dddd;
+    --blue: #1300ff;
+    --dusk: #6600ff;
+    --purple: #9900ff;
+    --pink: #ff0066;
+    --red: #fe0222;
+    --orange: #fd7702;
+    --yellow: #ffbb00;
+    --background: var(--orange);
+    --accent: var(--white);
+    height: 10%;
+
+    background: rgb(85, 45, 79);
+    color: var(--black);
+    border-radius:10px;
 }

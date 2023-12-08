@@ -27,10 +27,9 @@ export default function App() {
     }, []);
     return (
         <div>
-
             {isVisible && (
                 <motion.div
-                    className="box"
+                    className="start_box"
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{
@@ -44,12 +43,10 @@ export default function App() {
                         }
                     }}
                         >
-                        <h1 className="title">stuiz</h1>
+                        <h1 className="title_title">stuiz</h1>
+                        
                 </motion.div>
-    )
-}
-
-        </div >
-
+                )}
+            </div >
     );
 }

@@ -28,19 +28,18 @@ const Answer = ({ handleAnswerButtonClick, questions, currentQuestion, getModani
     const shuffledQuestions = shuffleArray(questions);
 
 
-
     return (
-        <div className='body'>
-            <div className="title_box">
-                <div className="title_box-body">
+        <div className='answer_body'>
+            <div className="answer_title_box">
+                <div className="answer_title_box-body">
                     </div>
                     {showResults ? (
                     <div>
-                        <h2 className='title'>Q.{currentQuestion + 1}</h2>
-                        <p className='box4 question'>{shuffledQuestions[currentQuestion].questionText}</p>
+                        <h2 className='answer_title'>Q.{currentQuestion + 1}</h2>
+                        <p className='answer_box1 answer_question'>{shuffledQuestions[currentQuestion].questionText}</p>
                         <ul className=''>
                             {shuffledQuestions[currentQuestion].answerOptions.map((answerOption, key) => (
-                                    <motion.li className='question2 box2 btn-border'
+                                    <motion.li className='answer_question2 answer_box2 answer_btn-border'
                                         whileHover={{
                                             scale: 1.1,
                                             transition: { duration: 1 },

@@ -4,7 +4,7 @@ body {
     left: 20%;
     bottom: 0;
     right: 20%;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     --black: #000000;
@@ -22,8 +22,10 @@ body {
     --background: var(--orange);
     --accent: var(--white);
     width: 60%; /* 例: 要素の幅を80%に制限 */
-    background: rgb(96, 0, 0);
-    color: var(--accent);
+    height: 80%; /* 背景の高さを80%に設定 */
+    background: rgb(255, 179, 179);
+    color: var(--black);
+    border-radius:10px;
 }
 
 #root {
@@ -35,6 +37,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 10px;
+    border: solid;
 }
 
 * {
@@ -157,25 +161,25 @@ circle {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-
 }
 
 .refresh path {
     fill: var(--accent);
 }
 
-.title {
+.title_title {
     text-align: center;
     height: 60px;
     line-height: 10px;
+    color: white;
 }
 
-.box {
+.titel_box {
     position: relative;
     /* 今の位置を基準 */
-    bottom: 130px;
+    bottom: 150px;
     /* 上から10px */
-    right: 25px;
+    left: 3px;
     width: 200px;
     height: 200px;
     border-radius: 50%;
@@ -184,9 +188,8 @@ circle {
     align-items: center;
     justify-content: center;
     color: rgba(255, 255, 222, 1);
-    ;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     /* テキストの色 */
     font-size: 15px;
     /* テキストのフォントサイズ */
-
 }
