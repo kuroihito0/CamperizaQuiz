@@ -14,32 +14,22 @@ const Incorrect = () => {
             try {
                 // InCorrect コレクションから "間違えたID" と count を取得し、count でソート
                 const incorrectQuestionsSnapshot = await getDocs(
-                    query(collection(db, 'InCorrect'))
-
+                    query(collection(db, 'InCorrect'), orderBy('count', 'desc'))
                 );
-
+                
                 const incorrectQuestionsData = incorrectQuestionsSnapshot.docs.map((doc) => ({
                     incorrectQuestionId: doc.data().incorrectQuestionId,
                     count: doc.data().count,
                 }));
-                console.log(incorrectQuestionsData);
-
-                const filteredIncorrectQuestionIds = incorrectQuestionsData
-                    .map(d => d.incorrectQuestionId)
-                    .filter(id => id !== undefined);
 
                 if (incorrectQuestionsData.length > 0) {
                     // サーバーサイドでのフィルタリング
                     const technologyQuestionsSnapshot = await getDocs(
-                        query(
-                            collection(db, 'Technology'),
-                            ...(filteredIncorrectQuestionIds.length > 0 ? [where('問題ID', 'in', filteredIncorrectQuestionIds)] : []),
-                        )
+                        query(collection(db, 'Technology'), where('問題ID', 'in', incorrectQuestionsData.map(d => d.incorrectQuestionId)))
                     );
-
+                    
                     const technologyQuestionsData = technologyQuestionsSnapshot.docs.map((doc) => ({
                         questionText: doc.data().問題文,
-
                         questionCount: incorrectQuestionsData.find(d => d.incorrectQuestionId === doc.data().問題ID)?.count || 0,
                     }));
                     
@@ -62,7 +52,7 @@ const Incorrect = () => {
             {/* 取得した incorrectQuestions を使って表示や処理を行う */}
             {technologyQuestionsData.map((question, index) => (
                 <p key={index}>
-                    問題文: {question.questionText},皆が間違えた回数: {question.questionCount}
+                    <h2>問題文: {question.questionText}</h2><h3>皆が間違えた回数: {question.questionCount}</h3> 
                 </p>
             ))}
         </div>

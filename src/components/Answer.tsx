@@ -27,9 +27,6 @@ const Answer = ({ handleAnswerButtonClick, questions, currentQuestion, getModani
     // ランダムに質問をシャッフル
     const shuffledQuestions = shuffleArray(questions);
 
-    const test = (isCorrect)=>{
-        handleAnswerButtonClick(isCorrect)
-    }
 
     return (
         <div className='answer_body'>
@@ -48,7 +45,6 @@ const Answer = ({ handleAnswerButtonClick, questions, currentQuestion, getModani
                                             transition: { duration: 1 },
                                         }}
                                         whileTap={{ scale: 0.9 }}
-
                                         key={key}
                                         onClick={() => handleAnswerButtonClick(answerOption.isCorrect,shuffledQuestions[currentQuestion].questionID)}>
                                             {answerOption.answerText}

@@ -1,5 +1,7 @@
 import React, { useEffect,useState } from 'react';
 import { BrowserRouter as Router, Route, Routes,Link } from 'react-router-dom';
+import Quiz from "./Quiz";
+import Incorrect from './Incorrect';
 import {motion} from "framer-motion"
 
 function Home() {
@@ -23,7 +25,6 @@ function Home() {
                 <div><Link to="/">ホーム</Link></div>
                 <div><Link to="Quiz">クイズ</Link></div>
                 <div><Link to="Incorrect">間違えやすい問題</Link></div>
-                <div><Link to="title">雨竜</Link></div>
             </motion.div>
             )}
         </div>

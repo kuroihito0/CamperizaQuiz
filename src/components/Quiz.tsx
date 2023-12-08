@@ -200,6 +200,7 @@ const Quiz = (props) => {
         setQuestions([...新しいQuestions]); // スプレッド演5算子を使って新しい問題データの配列を渡す
     };
 
+<<<<<<< HEAD
     /*新しい問題データ.answerOptions.forEach(option => {
                 if (option.number === 解答) {
                     option.isCorrect = true;
@@ -210,6 +211,8 @@ const Quiz = (props) => {
         setQuestions([...新しいQuestions]); // スプレッド演5算子を使って新しい問題データの配列を渡す
     };*/
 
+=======
+>>>>>>> 0a5e95366fdc6aefbeb1e0efc739954e76cc38bd
     // useEffectを使って状態が更新されたらログを出力
     useEffect(() => {
         console.log('questions ステートだ:', questions);
@@ -220,44 +223,10 @@ const Quiz = (props) => {
     const [showScore, setShowScore] = useState(false);
     const [score, setScore] = useState(0);
 
-    /*
-    const handleAnswerButtonClick = (isVisible, setIsVisible,isCorrect, questionID) => {
-        if (isCorrect) {
-            console.log("a:",score)
-            setScore(score + 1);
-            console.log("b:",score)
-            return (
-                <div>
-                    {isVisible && (
-                        <motion.div
-                            className=""
-                            initial={{ opacity: 0, scale: 0.5 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{
-                                duration: 0.3,
-                                ease: [0, 0.71, 0.2, 1.01],
-                                scale: {
-                                    type: "spring",
-                                    damping: 5,
-                                    stiffness: 800,
-                                    restDelta: 0.001
-                                }
-                            }}
-                        >
-                            <img src={maru} alt="aa"/>  </motion.div>
-                )}
-            </div>
-            );
-        } else {
-            const incorrectQuestionId = questionID; // ここで適切な問題IDを取得する必要があります
-            addIncorrectQuestion(incorrectQuestionId);
-            
-        }*/
-    
     const handleAnswerButtonClick = (isCorrect, questionID) => {
         if (isCorrect) {
+            alert('正解です');
             setScore(score + 1);
-            alert("正解です")
         } else {
             const incorrectQuestionId = questionID; // ここで適切な問題IDを取得する必要があります
             addIncorrectQuestion(incorrectQuestionId);
