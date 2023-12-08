@@ -1,8 +1,9 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
-import {getAuth,GoogleAuthProvider} from "firebase/auth";
+import serviceAccountKey from '../serviceAccountKey.json';
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyD55Ecn3NX35pcLEorwuxiufNSXh49nym8",
@@ -14,10 +15,35 @@ const firebaseConfig = {
     measurementId: "G-4GWVJQG0BL"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 
-export const auth = getAuth(app);
-export const provider = new GoogleAuthProvider();
-export const db = getFirestore(app);
+// Firebase App の初期化
+const app = initializeApp({
+    ...firebaseConfig,
+    credential: {
+        type: serviceAccountKey.type,
+        project_id: serviceAccountKey.project_id,
+        private_key_id: serviceAccountKey.private_key_id,
+        private_key: serviceAccountKey.private_key,
+        client_email: serviceAccountKey.client_email,
+        client_id: serviceAccountKey.client_id,
+        auth_uri: serviceAccountKey.auth_uri,
+        token_uri: serviceAccountKey.token_uri,
+        auth_provider_x509_cert_url: serviceAccountKey.auth_provider_x509_cert_url,
+        client_x509_cert_url: serviceAccountKey.client_x509_cert_url,
+      // 他のプロパティも必要に応じて追加
+    },
+    });
+
+
+    const analytics = getAnalytics(app);
+
+// Firestore の初期化
+const db = getFirestore(app);
+
+// Authentication の初期化
+const auth = getAuth(app);
+
+// Google 認証プロバイダーの初期化
+const provider = new GoogleAuthProvider();
+
+export { db, auth, provider };

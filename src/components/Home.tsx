@@ -1,16 +1,16 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes,Link } from 'react-router-dom';
-import Quiz from "./Quiz";
-function Home() {
+import { Link } from 'react-router-dom';
 
+function Home() {
     return (
         <div className="App">
             <ul>
                 <li><Link to="/">ホーム</Link></li>
-                <li><Link to="Quiz">クイズ</Link></li>
+                <li><Link to="/Quiz">クイズ</Link></li>
+                <li><Link to="/Importer">問題を追加</Link></li>
+                <li><Link to="/WordHint">用語を覚えよう</Link></li>
             </ul>
-    </div>
+        </div>
     );
-    }
+}
 
 export default Home;

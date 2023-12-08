@@ -2,12 +2,14 @@ import './App.css';
 import { Auth } from "./components/Auth";
 import React, { useState, useRef } from "react";
 import { BrowserRouter as Router, Route, Routes,Link } from 'react-router-dom';
-
+import { useDropzone } from 'react-dropzone';
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 import Home from "./components/Home";
 import Quiz from "./components/Quiz";
+import Import from './components/importer';
+import WordHint from './components/WordHint';
 
 interface CSVRow {
   [key: string]: string | undefined;
@@ -51,6 +53,8 @@ function App() {
     <Routes>
     <Route path="/" element={<Home />}/>
     <Route path="/Quiz" element={<Quiz />}/>
+    <Route path="/Importer" element={<Import />}/>
+    <Route path="/WordHint" element={<WordHint />}/>
 </Routes>
   );
 }
