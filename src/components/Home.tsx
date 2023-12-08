@@ -1,6 +1,5 @@
 import React, { useEffect,useState } from 'react';
 import { BrowserRouter as Router, Route, Routes,Link } from 'react-router-dom';
-import Quiz from "./Quiz";
 import {motion} from "framer-motion"
 
 function Home() {
@@ -9,19 +8,25 @@ function Home() {
         setIsVisible(false); // ページがロードされたらisVisibleをtrueに設定してアニメーションをトリガー
         const timer = setTimeout(()=>{
             setIsVisible(true);
-        },2000);//秒後にisVisibleをfalseに設定（アニメーションの時間に合わせて調整してください）
+        },500);//秒後にisVisibleをfalseに設定（アニメーションの時間に合わせて調整してください）
 
         return () => clearTimeout(timer);// コンポーネントがアンマウントされたらタイマーをクリア
     },[]);
 
     return (
-        <div className="App">
-            <ul>
-                <li><Link to="/">ホーム</Link></li>
-                <li><Link to="Quiz">クイズ</Link></li>
-                <li><Link to="title">雨竜</Link></li>
-            </ul>
-    </div>
+        <div>
+            {isVisible &&(
+            <motion.div
+                initial={{opacity:0}}
+                animate={{opacity:1}}
+                transition={{duration:1}}>
+                <div><Link to="/">ホーム</Link></div>
+                <div><Link to="Quiz">クイズ</Link></div>
+                <div><Link to="Incorrect">間違えやすい問題</Link></div>
+                <div><Link to="title">雨竜</Link></div>
+            </motion.div>
+            )}
+        </div>
     );
     }
 
