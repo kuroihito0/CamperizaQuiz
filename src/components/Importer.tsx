@@ -4,7 +4,7 @@ import {
     doc,
     writeBatch,
 } from 'firebase/firestore';
-import React, { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import Papa from 'papaparse';

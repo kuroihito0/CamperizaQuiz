@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/answer.css';
-import { motion, useUnmountEffect } from "framer-motion";
+import { motion } from "framer-motion";
 
 // Fisher-Yatesアルゴリズムを使用して、配列をランダムにシャッフルする関数
 const shuffleArray = (array) => {

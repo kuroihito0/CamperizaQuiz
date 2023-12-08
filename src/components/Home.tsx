@@ -1,7 +1,6 @@
-import React, { useEffect,useState } from 'react';
-import { BrowserRouter as Router, Route, Routes,Link } from 'react-router-dom';
-import Quiz from "./Quiz";
-import Incorrect from './Incorrect';
+import { useEffect,useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import {motion} from "framer-motion"
 
 function Home() {

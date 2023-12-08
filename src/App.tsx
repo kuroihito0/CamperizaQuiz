@@ -1,7 +1,7 @@
 import './App.css'
 import { Auth } from "./components/Auth";
-import React, { useState, useRef } from "react";
-import { BrowserRouter as Router, Route, Routes,Link } from 'react-router-dom';
+import  { useState, useRef } from "react";
+import {  Route, Routes } from 'react-router-dom';
 
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
@@ -10,7 +10,7 @@ import Quiz from "./components/Quiz";
 import Title from "./components/title";
 import Start from "./components/start";
 import Incorrect from './components/Incorrect';
-import Import from './components/importer';
+import Import from './components/Importer';
 import WordHint from './components/WordHint';
 
 
@@ -18,9 +18,6 @@ import WordHint from './components/WordHint';
 
 function App() {
   const [isAuth, setIsAuth] = useState(cookies.get("auth-token"))
-  const [room, setRoom] = useState("")
-
-  const roomInputRef = useRef<HTMLInputElement | null>(null); // roomInputRef の型を指定
 
   if (!isAuth) {
     return (

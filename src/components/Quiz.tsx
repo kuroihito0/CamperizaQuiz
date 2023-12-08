@@ -11,16 +11,13 @@ import {
     setDoc,
     getDocs
 } from 'firebase/firestore';
-import { motion, useUnmountEffect } from "framer-motion";
-import maru from "../img/maru.png"
+
 import { auth, db } from '../firebase-config';
 import '../styles/Chat.css';
 
 
 const Quiz = (props) => {
 
-    const [messages, setMessages] = useState([]);
-    const messagesRef = collection(db, 'messages');
     const [pointlist, setPointlist] = useState([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -176,7 +173,7 @@ const Quiz = (props) => {
             let ウ = doc.data().ウ;
             let エ = doc.data().エ;
             let 解答 = doc.data().解答;
-            let 解説 = doc.data().解説;
+            //let 解説 = doc.data().解説;
 
             let 新しい問題データ = {
                 questionText: 問題文,

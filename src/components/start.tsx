@@ -1,8 +1,8 @@
 import "../styles/start.css";
-import { motion, useUnmountEffect } from "framer-motion";
+import { motion} from "framer-motion";
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import Quiz from "./Quiz";
+import { Link } from 'react-router-dom';
+
 
 export default function App() {
     const [isVisible, setIsVisible] = useState(false);

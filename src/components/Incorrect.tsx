@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
+import { useState, useEffect } from 'react';
+import { collection, getDocs, query, where,} from 'firebase/firestore';
 
 import { db } from '../firebase-config';
 import '../styles/Incorrect.css';
 
 const Incorrect = () => {
-    const [incorrectQuestions, setIncorrectQuestions] = useState([]);
+
     const [technologyQuestionsData, setTechnologyQuestionsData] = useState([]);
-    const [count, setCount] = useState(0);
+
 
     useEffect(() => {
         const fetchIncorrectQuestions = async () => {
