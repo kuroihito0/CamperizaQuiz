@@ -200,19 +200,6 @@ const Quiz = (props) => {
         setQuestions([...新しいQuestions]); // スプレッド演5算子を使って新しい問題データの配列を渡す
     };
 
-<<<<<<< HEAD
-    /*新しい問題データ.answerOptions.forEach(option => {
-                if (option.number === 解答) {
-                    option.isCorrect = true;
-                }
-            });
-            新しいQuestions.push(新しい問題データ);
-        });
-        setQuestions([...新しいQuestions]); // スプレッド演5算子を使って新しい問題データの配列を渡す
-    };*/
-
-=======
->>>>>>> 0a5e95366fdc6aefbeb1e0efc739954e76cc38bd
     // useEffectを使って状態が更新されたらログを出力
     useEffect(() => {
         console.log('questions ステートだ:', questions);
