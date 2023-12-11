@@ -7,6 +7,7 @@ import '../styles/Incorrect.css';
 const Incorrect = () => {
 
     const [technologyQuestionsData, setTechnologyQuestionsData] = useState([]);
+    const [ incorrectQuestions,setIncorrectQuestions ]= useState([])
 
 
     useEffect(() => {
@@ -19,7 +20,7 @@ const Incorrect = () => {
                 );
 
                 const incorrectQuestionsData = incorrectQuestionsSnapshot.docs.map((doc) => ({
-                    incorrectQuestionId:any doc.data().incorrectQuestionId,
+                    incorrectQuestionId:doc.data().incorrectQuestionId,
                     count: doc.data().count,
                 }));
                 console.log(incorrectQuestionsData);

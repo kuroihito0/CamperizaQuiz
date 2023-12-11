@@ -20,7 +20,7 @@ const Quiz = (props) => {
 
     const [pointlist, setPointlist] = useState([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
-
+    const [messages] = useState([]);
 
     /*useEffect(() => {
         const unsubscribe = onSnapshot(
@@ -58,7 +58,8 @@ const Quiz = (props) => {
         const fetchData = async () => {
             try {
                 const querySnapshot = await getDocs(collection(db, 'Point'));
-                const pointlist = [];
+                
+                const pointlist:any = [];
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
                     pointlist.push(data);
@@ -207,7 +208,7 @@ const Quiz = (props) => {
     const [showScore, setShowScore] = useState(false);
     const [score, setScore] = useState(0);
 
-    const handleAnswerButtonClick = (isCorrect, questionID) => {
+    const handleAnswerButtonClick = (isCorrect:any, questionID:any) => {
         if (isCorrect) {
             alert('正解です');
             setScore(score + 1);
