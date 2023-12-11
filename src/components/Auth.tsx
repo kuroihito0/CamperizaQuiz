@@ -5,7 +5,7 @@ import"../styles/Auth.css"
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
-export const Auth = (props) =>{
+export const Auth = (props:any) =>{
     const {setIsAuth} = props;
     const signInWithGoogle = async () =>{
         try{

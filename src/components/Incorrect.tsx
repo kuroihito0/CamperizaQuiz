@@ -19,7 +19,7 @@ const Incorrect = () => {
                 );
 
                 const incorrectQuestionsData = incorrectQuestionsSnapshot.docs.map((doc) => ({
-                    incorrectQuestionId: doc.data().incorrectQuestionId,
+                    incorrectQuestionId:any doc.data().incorrectQuestionId,
                     count: doc.data().count,
                 }));
                 console.log(incorrectQuestionsData);

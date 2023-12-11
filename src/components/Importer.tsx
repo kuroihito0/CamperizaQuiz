@@ -19,23 +19,29 @@ function Import() {
     const [userDefinedCollectionName, setUserDefinedCollectionName] = useState<string>('');
     const [isImported, setIsImported] = useState<boolean>(false);
 
-    const onDrop = async (acceptedFiles: File[]) => {
-        const file = acceptedFiles[0];
-        const fileText = await file.text();
+const onDrop = async (acceptedFiles: File[]) => {
+    // acceptedFiles 配列が空の場合は処理をスキップ
+    if (acceptedFiles.length === 0) {
+        console.error('ファイルが選択されていません。');
+        return;
+    }
 
-        Papa.parse<CSVRow>(fileText, {
-            header: true,
-            dynamicTyping: true,
-            complete: (results) => {
-                // Firestoreにデータを追加
-                addDataToFirestore(results.data);
-                setIsImported(true);
-            },
-            error: (error) => {
-                console.error('CSV parsing error:', error.message);
-            },
-        });
-    };
+    const file:any = acceptedFiles[0];
+    const fileText = await file.text();
+
+    Papa.parse<CSVRow>(fileText, {
+        header: true,
+        dynamicTyping: true,
+        complete: (results: any) => {
+            // Firestoreにデータを追加
+            addDataToFirestore(results.data);
+            setIsImported(true);
+        },
+        error: (error: any) => {
+            console.error('CSV parsing error:', error.message);
+        },
+    });
+};
 
     const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
