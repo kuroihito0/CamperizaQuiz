@@ -8,6 +8,7 @@ export default function App() {
     const [isVisible, setIsVisible] = useState(false);
     useEffect(() => {
         setIsVisible(false);
+        console.log(isVisible);
     }, []);
     return (
         <div>
@@ -22,7 +23,7 @@ export default function App() {
                     whileTap={{ scale: 0.9 }}
                     >
                     
-                <Link to="/Quiz" className="start_button start_btn-border">
+                <Link to="/" className="start_button start_btn-border">
                     START
                 </Link>
             </motion.div>

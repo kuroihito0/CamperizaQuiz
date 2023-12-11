@@ -8,7 +8,7 @@ const Incorrect = () => {
 
     const [technologyQuestionsData, setTechnologyQuestionsData] = useState([]);
     const [ incorrectQuestions,setIncorrectQuestions ]= useState([])
-
+    const [count ] = useState(0);
 
     useEffect(() => {
         const fetchIncorrectQuestions = async () => {
