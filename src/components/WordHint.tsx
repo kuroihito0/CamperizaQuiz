@@ -20,11 +20,11 @@ function WordHint() {
             try {
                 const querySnapshot = await getDocs(collection(db, '用語の覚え方集'));
                 const data: WordData[] = querySnapshot.docs
-                    .filter((doc) => doc.data().意味 !== null)
+                    .filter((doc) => doc.data()['意味'] !== null)
                     .map((doc) => ({
-                        ID: doc.data().ID,
-                        単語: doc.data().単語,
-                        意味: doc.data().意味,
+                        ID: doc.data()['ID'],
+                        単語: doc.data()['単語'],
+                        意味: doc.data()['意味'],
                     }));
                 console.log('Fetched Data:', data);
                 setWordList(data);

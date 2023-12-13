@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 
 export default function App() {
-    const [isVisible, setIsVisible] = useState(false);
+    const [, setIsVisible] = useState(false);
     useEffect(() => {
         setIsVisible(false);
     }, []);
