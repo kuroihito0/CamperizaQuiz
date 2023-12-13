@@ -9,6 +9,7 @@ const Incorrect = () => {
     const [, setIncorrectQuestions] = useState<any[]>([]);
     const [count] = useState<number>(0); // 適切な型を指定する
 
+
     useEffect(() => {
         const fetchIncorrectQuestions = async () => {
             try {
