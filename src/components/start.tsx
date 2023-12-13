@@ -8,7 +8,7 @@ export default function App() {
     const [, setIsVisible] = useState(false);
     useEffect(() => {
         setIsVisible(false);
-        console.log(isVisible);
+        console.log(setIsVisible);
     }, []);
     return (
         <div>
