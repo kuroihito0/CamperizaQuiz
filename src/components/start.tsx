@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom';
 
 
 export default function App() {
-    const [, setIsVisible] = useState(false);
+    const [isVisible] = useState(false);
+
     useEffect(() => {
-        setIsVisible(false);
         console.log(isVisible);
-    }, []);
+    }, [isVisible]);
     return (
         <div>
             <div className="start_box">
