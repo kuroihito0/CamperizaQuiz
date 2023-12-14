@@ -210,14 +210,27 @@ const Quiz = (props: any) => {
 
     const getRandomDocument = async () => {
         try {
+            // コレクション内のすべてのドキュメントを取得
             const querySnapshot = await getDocs(collection(db, 'messages'));
+    
+            // ランダムなインデックスを生成
             const randomIndex = Math.floor(Math.random() * querySnapshot.size);
+    
+            // ランダムなドキュメントを選択
             const randomDoc = querySnapshot.docs[randomIndex];
-            return randomDoc?.data() || {}; // 追加行: ドキュメントがない場合は空のオブジェクトを返す
+    
+            if (randomDoc) {
+                return randomDoc.data();
+            } else {
+                // ドキュメントが存在しない場合の処理
+                return null;
+            }
         } catch (error) {
-            console.error('ドキュメントの取得に失敗:', error);
+            console.error('ランダムなドキュメントの取得に失敗:', error);
+            return null;
         }
     };
+    
 
     getRandomDocument()
         .then((data) => {

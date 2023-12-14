@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 
 import { Header } from './Header';
@@ -12,12 +13,12 @@ export const Page: React.FC = () => {
 
   return (
     <article>
-      <Header
-        user={user}
-        onLogin={() => setUser({ name: 'Jane Doe' })}
-        onLogout={() => setUser(undefined)}
-        onCreateAccount={() => setUser({ name: 'Jane Doe' })}
-      />
+<Header
+    user={user as User}
+    onLogin={() => setUser({ name: 'Jane Doe' })}
+    onLogout={() => setUser(undefined)}
+    onCreateAccount={() => setUser({ name: 'Jane Doe' })}
+/>
 
       <section>
         <h2>Pages in Storybook</h2>
