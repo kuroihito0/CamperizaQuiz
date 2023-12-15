@@ -2,7 +2,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { db } from '../firebase-config';
-import { animateScroll as scroll, scroller } from 'react-scroll';
+//import { animateScroll as scroll, scroller } from 'react-scroll';
 import '../styles/WordHint.css'
 
 interface WordData {
@@ -11,14 +11,14 @@ interface WordData {
     意味: string | null;
 }
 
-const scrollToTop = () => {
+/*const scrollToTop = () => {
     // 'top' は、スクロール先の要素の名前（下で定義されている "top" と対応）
     scroller.scrollTo('top', {
         duration: 800,
         delay: 0,
         smooth: 'easeInOutQuart',
     });
-};
+};*/
 
 function WordHint() {
     const [wordList, setWordList] = useState<WordData[]>([]);
@@ -28,11 +28,11 @@ function WordHint() {
             try {
                 const querySnapshot = await getDocs(collection(db, '用語の覚え方集'));
                 const data: WordData[] = querySnapshot.docs
-                    .filter((doc) => doc.data().意味 !== null)
+                    .filter((doc) => doc.data()['意味'] !== null)
                     .map((doc) => ({
-                        ID: doc.data().ID,
-                        単語: doc.data().単語,
-                        意味: doc.data().意味,
+                        ID: doc.data()['ID'],
+                        単語: doc.data()['単語'],
+                        意味: doc.data()['意味'],
                     }));
                 console.log('Fetched Data:', data);
                 setWordList(data);
