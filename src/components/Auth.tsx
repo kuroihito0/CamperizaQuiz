@@ -1,6 +1,6 @@
 import {auth,provider} from "../firebase-config";
 import {signInWithPopup} from "firebase/auth";
-import bouzu from "../img/doll.png";
+import ipa from "../img/IPA.png";
 import"../styles/Auth.css"
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
@@ -19,8 +19,7 @@ export const Auth = (props:any) =>{
 
     //タイトル画面
     return <div className="auth">
-        <img src={bouzu} alt="aa" />
-        <h1>おいでやす</h1>
-        <button className="btn btn-radius-gradient" onClick={signInWithGoogle}>B・A・K・A・S・U・R・V・I・V・O・R</button>
-    </div>
+    <img src={ipa} alt="aa" />
+    <button className="Auth_btn Auth_btn-radius-gradient Auth_button" onClick={signInWithGoogle}>ログイン</button>
+</div>
 }

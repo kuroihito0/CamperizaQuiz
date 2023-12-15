@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
+
 import { db } from '../firebase-config';
 
 const IncorrectQuestions = () => {
-    const [incorrectQuestions, setIncorrectQuestions] = useState([]);
+    const [incorrectQuestions, setIncorrectQuestions] = useState<any[]>([]);
 
     useEffect(() => {
         const fetchIncorrectQuestions = async () => {
@@ -13,8 +14,8 @@ const IncorrectQuestions = () => {
                 const technologySnapshot = await getDocs(technologyQuery);
 
                 const incorrectQuestionsData = technologySnapshot.docs.map((doc) => ({
-                    questionText: doc.data().問題文,
-                    inCorrectCount: doc.data().InCorrectCount || 0,
+                    questionText: doc.data()['問題文'],
+                    inCorrectCount: doc.data()['InCorrectCount'] || 0,
                 }));
 
                 console.log(incorrectQuestionsData)

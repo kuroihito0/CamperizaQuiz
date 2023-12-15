@@ -5,13 +5,13 @@ import {  Route, Routes } from 'react-router-dom';
 
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
-import Home from "./components/Home";
 import Quiz from "./components/Quiz";
 import Title from "./components/title";
 import Start from "./components/start";
 import Incorrect from './components/Incorrect';
 import Import from './components/Importer';
 import WordHint from './components/WordHint';
+import Home from "./components/Home";
 
 
 
@@ -29,7 +29,8 @@ function App() {
 
   return (
     <Routes>
-    <Route path="/" element={<Home />}/>
+    <Route path="/" element={<Title />}/>
+    <Route path='/Home' element={<Home/>}></Route>
     <Route path="/Quiz" element={<Quiz />}></Route>
     <Route path="/title" element={<Title />}></Route>
     <Route path='/start' element={<Start />}></Route>

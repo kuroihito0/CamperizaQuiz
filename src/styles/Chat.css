@@ -84,3 +84,65 @@
     font-size: 15px;
     /* テキストのフォントサイズ */
 }
+
+.border{
+    border: solid 2px #329eff;
+    margin: 2%;
+}
+
+.score{
+    color: red;
+}
+
+.Quiz_button {
+    background: white;
+    position: absolute;
+    left: 25%;
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.5;
+    position: absolute;
+    display: inline-block;
+    padding: 2rem 6rem;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    color: #212529;
+    border-radius: 3.5rem;
+    border: 3px solid;
+}
+
+
+.Quiz_button2 {
+    background: white;
+    position: absolute;
+    left: 50%;
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.5;
+    position: absolute;
+    display: inline-block;
+    padding: 2rem 6rem;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    color: #212529;
+    border-radius: 3.5rem;
+    border: 3px solid;
+}

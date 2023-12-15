@@ -1,16 +1,24 @@
-import {
-    collection,
-    getDocs,
-} from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { db } from '../firebase-config';
+import { animateScroll as scroll, scroller } from 'react-scroll';
+import '../styles/WordHint.css'
 
 interface WordData {
     ID: number;
     単語: string | null;
     意味: string | null;
 }
+
+const scrollToTop = () => {
+    // 'top' は、スクロール先の要素の名前（下で定義されている "top" と対応）
+    scroller.scrollTo('top', {
+        duration: 800,
+        delay: 0,
+        smooth: 'easeInOutQuart',
+    });
+};
 
 function WordHint() {
     const [wordList, setWordList] = useState<WordData[]>([]);
@@ -37,16 +45,19 @@ function WordHint() {
     }, []);
 
     return (
-        <div className="App" style={{ maxWidth: '1300px', margin: '0 auto' }}>
+        <div className="App" style={{ maxWidth: '1300px', margin: '0 auto', overflowY: 'auto', height: '100vh' }}>
             <ul>
-                <li><Link to="/">ホーム</Link></li>
+                <li>
+                    <Link to="/">ホーム</Link>
+                </li>
             </ul>
 
             <h2>用語一覧</h2>
             <ul>
                 {wordList.map((word) => (
                     <li key={word.ID}>
-                        <strong>用語: {word.単語}</strong><br />
+                        <strong>{word.単語}</strong>
+                        <br />
                         {word.意味 !== null && (
                             <>
                                 {word.意味.split('。').map((sentence, index, array) => (

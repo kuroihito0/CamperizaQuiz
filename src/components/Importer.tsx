@@ -9,7 +9,8 @@ import { Link } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import Papa from 'papaparse';
 import { db} from '../firebase-config'; // Firebaseの初期化済みインスタンスをインポート
-
+import download from "../img/download.png";
+import "../styles/importer.css"
 
 interface CSVRow {
     [key: string]: string | undefined;
@@ -79,7 +80,10 @@ const onDrop = async (acceptedFiles: File[]) => {
             <ul>
                 <li><Link to="/">ホーム</Link></li>
             </ul>
-            <div>
+            <div className='importer_download'>
+                <img src={download} alt='aaa' width={150} height={150}/>
+            </div>
+            <div className='importer_collection'>
                 <label>
                     コレクション名：
                     <input
@@ -92,7 +96,7 @@ const onDrop = async (acceptedFiles: File[]) => {
 
             <div {...getRootProps({ className: 'dropzone' })}>
                 <input {...getInputProps()} />
-                <p>ここをクリックしてCSVファイルを選択してください</p>
+                <button className='importer_button'>インポート</button>
             </div>
 
             {isImported && (

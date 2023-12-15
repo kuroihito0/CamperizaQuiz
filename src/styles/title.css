@@ -22,11 +22,11 @@ body {
     --background: var(--orange);
     --accent: var(--white);
     width: 60%; /* 例: 要素の幅を80%に制限 */
+<<<<<<< HEAD
     height: 80%; /* 背景の高さを80%に設定 */
-    background: rgb(255, 179, 179);
+    background: rgb(240,248,255);
     color: var(--black);
     border-radius:10px;
-}
 
 #root {
     position: absolute;
