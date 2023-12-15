@@ -15,6 +15,8 @@ import { motion, useUnmountEffect } from "framer-motion";
 import maru from "../img/maru.png"
 import { auth, db } from '../firebase-config';
 import '../styles/Chat.css';
+import Home from "../components/Home";
+import { BrowserRouter as Router, Route, Routes,Link } from 'react-router-dom';
 
 
 const Quiz = (props) => {
@@ -212,12 +214,11 @@ const Quiz = (props) => {
 
     const handleAnswerButtonClick = (isCorrect, questionID) => {
         if (isCorrect) {
-            alert('正解です');
             setScore(score + 1);
         } else {
             const incorrectQuestionId = questionID; // ここで適切な問題IDを取得する必要があります
             addIncorrectQuestion(incorrectQuestionId);
-            alert('不正解です');
+            
         }
 
 
@@ -298,27 +299,31 @@ const Quiz = (props) => {
     return (
         <div className="App">
             {showScore ? (
-                <p>
+                <h1>
                     お疲れ様でした!
                     <br />
-                    <span className="correct">10問中{score}問</span>正解です
-                    <button onClick={handleSubmission} disabled={isSubmitted}>送信</button>
+                    <span className="correct">10問中<span className='score'>{score}問</span>正解です</span>
+                    <div className="border"></div>
                     {showScore && (
                         <div>
+                            <p>ランキング:TOP5</p>
                             <ul>
                                 {pointlist
                                     .slice(0, 5)
                                     .map((item, index) => (
+                                        
                                         <li key={index}>
-                                            プレイヤー名: {item.user}, スコア: {item.text}
+                                            <span className="player">プレイヤー名: {item.user}, スコア: {item.text}</span>
                                         </li>
                                     ))}
                             </ul>
                         </div>
                     )}
-
-                </p>
-            ) : (
+                    <div className="border"></div>
+                    <button onClick={handleSubmission} disabled={isSubmitted} className='Quiz_button '>送信</button>
+                    <Link to="/" className='Quiz_button2 '>ホーム</Link>
+                </h1>) 
+                : (
                 <Answer
                     handleAnswerButtonClick={handleAnswerButtonClick}
                     questions={questions}

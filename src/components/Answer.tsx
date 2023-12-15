@@ -37,9 +37,9 @@ const Answer = ({ handleAnswerButtonClick, questions, currentQuestion, getModani
                     <div>
                         <h2 className='answer_title'>Q.{currentQuestion + 1}</h2>
                         <p className='answer_box1 answer_question'>{shuffledQuestions[currentQuestion].questionText}</p>
-                        <ul className=''>
+                        <ul>
                             {shuffledQuestions[currentQuestion].answerOptions.map((answerOption, key) => (
-                                    <motion.li className='answer_question2 answer_box2 answer_btn-border'
+                                    <motion.li className='answer_question2 answer_box2 answer_btn-border answer_mayuri'
                                         whileHover={{
                                             scale: 1.1,
                                             transition: { duration: 1 },

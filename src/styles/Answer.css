@@ -1,28 +1,30 @@
-.answer_question{
-    text-align:center;
-    padding:10px 0;
+.answer_question {
+    text-align: center;
+    padding: 10px 0;
     font-family: fantasy;
-    font-size:200%;
+    font-size: 200%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-ul{
-        list-style:none;
+ul {
+    list-style: none;
 }
 
-.answer_title{
-        font-family: 'Trebuchet MS',sans-serif;
-        text-align: center;
-        color: black;
-        font-size: 20px;
-    }
+.answer_title {
+    font-family: 'Trebuchet MS', sans-serif;
+    text-align: center;
+    color: black;
+    font-size: 20px;
+}
 
-.answer_question2{
-    text-align:center;
-    padding:20px 0
-    
+.answer_question2 {
+    font-size: 130%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
 }
 
 .answer_btn-border:hover {
@@ -33,16 +35,18 @@ ul{
 .answer_btn-border {
     border: 2px solid #000;
     border-radius: 0;
-    
+
 }
 
 .answer_box1 {
     float: center;
     font-weight: bold;
-    color: #000;/*文字色*/
+    color: #000;
+    /*文字色*/
     border: solid 2px black;
     border-width: 5pt;
-    border-radius: 10px;/*角の丸み*/
+    border-radius: 10px;
+    /*角の丸み*/
     background: #FFF;
     margin: auto;
     width: 70%;
@@ -51,17 +55,27 @@ ul{
 }
 
 .answer_box2 {
-    float: left; /* 左寄せ */
-    font-weight: bold; /* フォントの太さ */
-    color: #000; /* 文字色 */
-    border-width: 5pt; /* ボーダーの太さ */
-    border-radius: 10px; /* ボーダーの角の丸み */
-    border: solid 2px black; /* ボーダーのスタイル（黒色） */
-    background: #FFF; /* 背景色（白色） */
-    width: 30%; /* 幅が親要素の30% */
-    margin-bottom: 3%; /* 下方向のマージン */
-    margin-right: 5%; /* 右方向のマージン */
-    margin-left: 10%; /* 左方向のマージン */
+    float: left;
+    /* 左寄せ */
+    font-weight: bold;
+    /* フォントの太さ */
+    color: #000;
+    /* 文字色 */
+    border-width: 5pt;
+    /* ボーダーの太さ */
+    border-radius: 10px;
+    /* ボーダーの角の丸み */
+    border: solid 2px black;
+    /* ボーダーのスタイル（黒色） */
+    background: #FFF;
+    /* 背景色（白色） */
+    width: 300px;
+    /* 幅が親要素の30% */
+    height: 110px;
+    margin-bottom: 20px;
+    /* 下方向のマージン */
+    margin-left: 40px;
+    /* 左方向のマージン */
 }
 
 .btn,

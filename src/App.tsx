@@ -10,6 +10,8 @@ import Quiz from "./components/Quiz";
 import Title from "./components/title";
 import Start from "./components/start";
 import Incorrect from './components/Incorrect';
+import Importer from './components/Importer'
+import WordHint from './components/WordHint';
 
 
 
@@ -30,11 +32,13 @@ function App() {
 
   return (
     <Routes>
-    <Route path="/" element={<Home />}/>
+    <Route path="/" element={<Title/>}/>
     <Route path="/Quiz" element={<Quiz />}></Route>
-    <Route path="/title" element={<Title />}></Route>
+    <Route path="/Home" element={<Home />}></Route>
     <Route path='/start' element={<Start />}></Route>
     <Route path='/Incorrect' element={<Incorrect/>}></Route>
+    <Route path='/Importer' element={<Importer />}></Route>
+    <Route path='/WordHint' element={<WordHint />}></Route>
 </Routes>
   );
 

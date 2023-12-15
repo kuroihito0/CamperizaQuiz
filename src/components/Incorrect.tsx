@@ -15,7 +15,6 @@ const Incorrect = () => {
                 // InCorrect コレクションから "間違えたID" と count を取得し、count でソート
                 const incorrectQuestionsSnapshot = await getDocs(
                     query(collection(db, 'InCorrect'))
-
                 );
 
                 const incorrectQuestionsData = incorrectQuestionsSnapshot.docs.map((doc) => ({
@@ -39,10 +38,9 @@ const Incorrect = () => {
 
                     const technologyQuestionsData = technologyQuestionsSnapshot.docs.map((doc) => ({
                         questionText: doc.data().問題文,
-
                         questionCount: incorrectQuestionsData.find(d => d.incorrectQuestionId === doc.data().問題ID)?.count || 0,
                     }));
-                    
+
                     setIncorrectQuestions(incorrectQuestionsData);
                     setTechnologyQuestionsData(technologyQuestionsData);
                 } else {
@@ -58,11 +56,11 @@ const Incorrect = () => {
     }, [count]); // count が変更されたときに再実行されるように
 
     return (
-        <div className='body'>
+        <div className='body' style={{ height: '400px', overflowY: 'auto' }}>
             {/* 取得した incorrectQuestions を使って表示や処理を行う */}
             {technologyQuestionsData.map((question, index) => (
                 <p key={index}>
-                    問題文: {question.questionText},皆が間違えた回数: {question.questionCount}
+                    問題文: {question.questionText}, 皆が間違えた回数: {question.questionCount}
                 </p>
             ))}
         </div>
