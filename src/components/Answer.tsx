@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import '../styles/answer.css';
+import '../styles/Answer.css';
 import { motion } from "framer-motion";
 
 // Fisher-Yatesアルゴリズムを使用して、配列をランダムにシャッフルする関数
