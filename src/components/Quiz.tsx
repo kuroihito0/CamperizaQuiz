@@ -1,4 +1,3 @@
-// 省略なしのコード
 import { useEffect, useState } from 'react';
 import Answer from './Answer';
 import {
@@ -153,20 +152,22 @@ const Quiz = (props: any) => {
     const [score, setScore] = useState(0);
 
 
-    const addIncorrectQuestion = async (questionID: any) => {
-        try {
-            const technologyQuery = query(collection(db, "Technology"), where("問題ID", "==", questionID));
-            const technologyQuerySnapshot = await getDocs(technologyQuery);
+const addIncorrectQuestion = async (questionID: any) => {
+    try {
+        const technologyQuery = query(collection(db, "Technology"), where("問題ID", "==", questionID));
+        const technologyQuerySnapshot = await getDocs(technologyQuery);
 
-            if (!technologyQuerySnapshot.empty) {
-                // ドキュメントが存在する場合
-                const technologyDoc = technologyQuerySnapshot.docs[0];
-                const technologyDocData = technologyDoc.data();//?
+        if (!technologyQuerySnapshot.empty) {
+            // ドキュメントが存在する場合
+            const technologyDoc = technologyQuerySnapshot.docs[0];
+
+            if (technologyDoc) {
+                const technologyDocData = technologyDoc.data();
 
                 // InCorrectCountが存在するか確認
                 if ("InCorrectCount" in technologyDocData) {
                     // ドキュメントにInCorrectCountが存在する場合、+1して更新
-                    const currentCount = technologyDocData['InCorrectCount'];//?
+                    const currentCount = technologyDocData['InCorrectCount'];
                     const newCount = currentCount + 1;
 
                     // 更新するデータ
@@ -192,21 +193,26 @@ const Quiz = (props: any) => {
             } else {
                 console.error("指定された問題IDに対応するTechnologyドキュメントが見つかりませんでした");
             }
-        } catch (error) {
-            console.error("不正解の問題の更新に失敗:", error);
         }
-    };
+    } catch (error) {
+        console.error("不正解の問題の更新に失敗:", error);
+    }
+};
 
-    const handleAnswerButtonClick = (isCorrect: any, questionID: any) => {
+    const handleAnswerButtonClick = async (isCorrect: any, questionID: any) => {
         if (isCorrect) {
             setScore(score + 1);
-            console.log("正解です")
+            console.log("正解です");
         } else {
-            const incorrectQuestionId = questionID;
-            addIncorrectQuestion(incorrectQuestionId);
-            console.log('不正解です');
+            try {
+                const incorrectQuestionId = questionID;
+                await addIncorrectQuestion(incorrectQuestionId);
+                console.log('不正解です');
+            } catch (error) {
+                console.error('不正解の処理に失敗:', error);
+            }
         }
-
+    
         const nextQuestion = currentQuestion + 1;
         if (nextQuestion < 10) {
             setCurrentQuestion(nextQuestion);
@@ -215,43 +221,6 @@ const Quiz = (props: any) => {
             props.getPointValue(score);
         }
     };
-
-    /*const addIncorrectQuestion2 = async (incorrectQuestionId: any) => {
-        try {
-            const stringId = String(incorrectQuestionId);
-            const docRef = doc(db, 'InCorrect', stringId);
-
-            const docSnapshot = await getDoc(docRef);
-
-            if (docSnapshot.exists()) {
-                const currentCount = docSnapshot.data()['count'] || 0;
-                const newCount = currentCount + 1;
-
-                const updatedData = {
-                    count: newCount,
-                    createAt: serverTimestamp(),
-                    user: auth.currentUser?.displayName,
-                };
-
-                await setDoc(docRef, updatedData);
-
-                console.log('不正解の問題が正常に送信・更新されました');
-            } else {
-                const data = {
-                    incorrectQuestionId: incorrectQuestionId,
-                    count: 1,
-                    createAt: serverTimestamp(),
-                    user: auth.currentUser?.displayName,
-                };
-
-                await setDoc(docRef, data);
-
-                console.log('新しい不正解の問題が正常に送信されました');
-            }
-        } catch (error) {
-            console.error('不正解の問題の送信・更新に失敗:', error);
-        }
-    };*/
 
     const getRandomDocument = async () => {
         try {
