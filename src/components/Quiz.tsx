@@ -1,4 +1,3 @@
-// 省略なしのコード
 import { useEffect, useState } from 'react';
 import Answer from './Answer';
 import {
@@ -7,7 +6,6 @@ import {
     serverTimestamp,
     onSnapshot,
     query,
-    doc,
     setDoc,
     getDocs,
     where,
@@ -21,8 +19,14 @@ const Quiz = (props: any) => {
     const [pointlist, setPointlist] = useState<any[]>([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [messages, setMessages] = useState<any[]>([]);
-    const [incorrectQuestions, setIncorrectQuestions] = useState<any[]>([]);
+
     const [selectedQuestionIDs, setSelectedQuestionIDs] = useState<string[]>([]);
+
+    const test = () =>{
+        console.log(messages,selectedQuestionIDs)
+
+    }
+    test()
 
     useEffect(() => {
         const unsubscribe = onSnapshot(
@@ -157,20 +161,22 @@ const Quiz = (props: any) => {
     const [score, setScore] = useState(0);
 
 
-    const addIncorrectQuestion = async (questionID: any) => {
-        try {
-            const technologyQuery = query(collection(db, "Technology"), where("問題ID", "==", questionID));
-            const technologyQuerySnapshot = await getDocs(technologyQuery);
+const addIncorrectQuestion = async (questionID: any) => {
+    try {
+        const technologyQuery = query(collection(db, "Technology"), where("問題ID", "==", questionID));
+        const technologyQuerySnapshot = await getDocs(technologyQuery);
 
-            if (!technologyQuerySnapshot.empty) {
-                // ドキュメントが存在する場合
-                const technologyDoc = technologyQuerySnapshot.docs[0];
-                const technologyDocData = technologyDoc.data();//?
+        if (!technologyQuerySnapshot.empty) {
+            // ドキュメントが存在する場合
+            const technologyDoc = technologyQuerySnapshot.docs[0];
+
+            if (technologyDoc) {
+                const technologyDocData = technologyDoc.data();
 
                 // InCorrectCountが存在するか確認
                 if ("InCorrectCount" in technologyDocData) {
                     // ドキュメントにInCorrectCountが存在する場合、+1して更新
-                    const currentCount = technologyDocData['InCorrectCount'];//?
+                    const currentCount = technologyDocData['InCorrectCount'];
                     const newCount = currentCount + 1;
 
                     // 更新するデータ
@@ -196,11 +202,12 @@ const Quiz = (props: any) => {
             } else {
                 console.error("指定された問題IDに対応するTechnologyドキュメントが見つかりませんでした");
             }
-        } catch (error) {
-            console.error("不正解の問題の更新に失敗:", error);
         }
-    };
-    const [fire, setfire] = useState(true);
+    }catch{
+        console.log("^-^")
+    }
+}
+
 
     const handleAnswerButtonClick = (isCorrect: any, questionID: any) => {
         setSelectedQuestionIDs((prevIDs) => {
@@ -221,7 +228,7 @@ const Quiz = (props: any) => {
             addIncorrectQuestion(incorrectQuestionId);
             console.log("不正解です");
         }
-
+    
         const nextQuestion = currentQuestion + 1;
         if (nextQuestion < 10) {
             setCurrentQuestion(nextQuestion);
@@ -332,5 +339,6 @@ const Quiz = (props: any) => {
         </div>
     );
 };
+
 
 export default Quiz;

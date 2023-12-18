@@ -22,11 +22,11 @@ body {
     --background: var(--orange);
     --accent: var(--white);
     width: 60%; /* 例: 要素の幅を80%に制限 */
-<<<<<<< HEAD
     height: 80%; /* 背景の高さを80%に設定 */
     background: rgb(240,248,255);
     color: var(--black);
     border-radius:10px;
+}
 
 #root {
     position: absolute;
@@ -174,7 +174,7 @@ circle {
     color: white;
 }
 
-.titel_box {
+.title_box {
     position: relative;
     /* 今の位置を基準 */
     bottom: 150px;
@@ -188,7 +188,6 @@ circle {
     align-items: center;
     justify-content: center;
     color: rgba(255, 255, 222, 1);
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     /* テキストの色 */
     font-size: 15px;
     /* テキストのフォントサイズ */

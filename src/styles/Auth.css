@@ -46,7 +46,6 @@ body {
     border: black solid 3px;
 }
 .Auth_btn{
-    text-align: ;
     font-size: 1.6rem;
     font-weight: 700;
     line-height: 1.5;
@@ -90,7 +89,7 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f2f5f6', endColorstr='#96a1a5', GradientType=0);
 }
 
-.Atuh_btn-radius-gradient {
+.Auth_btn-radius-gradient {
     border-radius: 100vh;
     background: #e3eaed;
     background: -webkit-gradient(linear,
