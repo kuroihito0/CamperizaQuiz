@@ -21,6 +21,8 @@ const Quiz = (props: any) => {
     const [pointlist, setPointlist] = useState<any[]>([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [messages, setMessages] = useState<any[]>([]);
+    const [incorrectQuestions, setIncorrectQuestions] = useState<any[]>([]);
+    const [selectedQuestionIDs, setSelectedQuestionIDs] = useState<string[]>([]);
 
     useEffect(() => {
         const unsubscribe = onSnapshot(
@@ -122,10 +124,12 @@ const Quiz = (props: any) => {
             const ウ = doc.data()['ウ'];
             const エ = doc.data()['エ'];
             const 解答 = doc.data()['解答'];
+            const 解説 = doc.data()['解説'];
 
             const 新しい問題データ = {
                 questionText: 問題文,
                 questionID: 問題ID,
+                questionEx:解説,
                 answerOptions: [
                     { answerText: ア, isCorrect: false, number: 1 },
                     { answerText: イ, isCorrect: false, number: 2 },
@@ -196,15 +200,26 @@ const Quiz = (props: any) => {
             console.error("不正解の問題の更新に失敗:", error);
         }
     };
+    const [fire, setfire] = useState(true);
 
     const handleAnswerButtonClick = (isCorrect: any, questionID: any) => {
+        setSelectedQuestionIDs((prevIDs) => {
+            // prevIDs を使用して新しい状態を計算
+            const newIDs = [...prevIDs, questionID];
+
+            // 新しい状態をコンソールに出力
+            console.log(newIDs);
+
+            return newIDs;
+        });
+
         if (isCorrect) {
-            setScore(score + 1);
-            console.log("正解です")
+            setScore((prevScore) => prevScore + 1);
+            console.log("正解です");
         } else {
             const incorrectQuestionId = questionID;
             addIncorrectQuestion(incorrectQuestionId);
-            console.log('不正解です');
+            console.log("不正解です");
         }
 
         const nextQuestion = currentQuestion + 1;
@@ -253,28 +268,28 @@ const Quiz = (props: any) => {
         }
     };*/
 
-    const getRandomDocument = async () => {
-        try {
-            // コレクション内のすべてのドキュメントを取得
-            const querySnapshot = await getDocs(collection(db, 'messages'));
-
-            // ランダムなインデックスを生成
-            const randomIndex = Math.floor(Math.random() * querySnapshot.size);
-
-            // ランダムなドキュメントを選択
-            const randomDoc = querySnapshot.docs[randomIndex];
-
-            if (randomDoc) {
-                return randomDoc.data();
-            } else {
-                // ドキュメントが存在しない場合の処理
+    /*    const getRandomDocument = async () => {
+            try {
+                // コレクション内のすべてのドキュメントを取得
+                const querySnapshot = await getDocs(collection(db, 'messages'));
+    
+                // ランダムなインデックスを生成
+                const randomIndex = Math.floor(Math.random() * querySnapshot.size);
+    
+                // ランダムなドキュメントを選択
+                const randomDoc = querySnapshot.docs[randomIndex];
+    
+                if (randomDoc) {
+                    return randomDoc.data();
+                } else {
+                    // ドキュメントが存在しない場合の処理
+                    return null;
+                }
+            } catch (error) {
                 return null;
             }
-        } catch (error) {
-            return null;
-        }
-    };
-
+        };
+    */
 
 
 
