@@ -31,12 +31,12 @@ function App() {
     <Routes>
     <Route path="/" element={<Title />}/>
     <Route path='/Home' element={<Home/>}></Route>
-    <Route path="/Quiz" element={<Quiz />}></Route>
-    <Route path="/title" element={<Title />}></Route>
+    <Route path="/Home/Quiz" element={<Quiz />}></Route>
+    <Route path="/Home/title" element={<Title />}></Route>
     <Route path='/start' element={<Start />}></Route>
-    <Route path="/Importer" element={<Import />}/>
-    <Route path="/WordHint" element={<WordHint />}/>
-    <Route path='/Incorrect' element={<Incorrect/>}></Route>
+    <Route path="/Home/Importer" element={<Import />}/>
+    <Route path="/Home/WordHint" element={<WordHint />}/>
+    <Route path='/Home/Incorrect' element={<Incorrect/>}></Route>
 </Routes>
   );
 
