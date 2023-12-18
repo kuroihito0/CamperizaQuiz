@@ -5,12 +5,12 @@ type User = {
   name: string;
 };
 
-interface HeaderProps {
-  user?: User;
+type HeaderProps = {
+  user?: User; // user プロパティをオプショナルに変更
   onLogin: () => void;
   onLogout: () => void;
   onCreateAccount: () => void;
-}
+};
 
 export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps) => (
   <header>
@@ -34,7 +34,7 @@ export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps
         </svg>
         <h1>Acme</h1>
       </div>
-      <div>
+      <div>s
         {user ? (
           <>
             <span className="welcome">
@@ -52,3 +52,4 @@ export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps
     </div>
   </header>
 );
+
