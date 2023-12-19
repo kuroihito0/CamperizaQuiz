@@ -37,13 +37,13 @@ const Answer = ({ handleAnswerButtonClick, questions, currentQuestion, getModani
     // ランダムに質問をシャッフル
     const shuffledQuestions = shuffleArray(questions);
 
-    const fetchQuestionExplanation = async (questionID) => {
+    const fetchQuestionExplanation = async (questionID:any) => {
         try {
             const docRef = doc(db, 'Technology', questionID);
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
-                const explanation = docSnap.data().explanation;
+                const explanation = docSnap.data()['explanation'];
                 return explanation || '解説がありません'; // explanationが存在しない場合のデフォルトメッセージ
             } else {
                 return '問題が見つかりません';
