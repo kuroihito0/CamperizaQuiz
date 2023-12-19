@@ -68,15 +68,7 @@ const Quiz = (props: any) => {
         console.log('isSubmitted:', isSubmitted);
         if (!isSubmitted) {
             setIsSubmitted(true);
-            console.log('isSubmitted:', isSubmitted);
-
-            // 10問答えた後、最後の問題IDに対応する解説を取得
-            if (selectedQuestionIDs.length === 10) {
-                const lastQuestionID = selectedQuestionIDs[selectedQuestionIDs.length - 1];
-                fetchQuestionExplanation(lastQuestionID);
-            }else{
-                console.log("え！")
-            }
+            console.log('isSubmitted:', isSubmitted)
 
             await handleSub();
         }
@@ -91,8 +83,13 @@ const Quiz = (props: any) => {
             // 10問答えた後、最後の問題IDに対応する解説を取得
             if (selectedQuestionIDs.length === 10) {
                 const lastQuestionID = selectedQuestionIDs[selectedQuestionIDs.length - 1];
-                fetchQuestionExplanation(lastQuestionID);
-            }else{
+                if (lastQuestionID) {
+                    fetchQuestionExplanation(lastQuestionID);
+                }
+                else {
+                    console.error("最後の問題IDが存在しません");
+                }
+            } else {
                 console.log("え！")
             }
         }
@@ -242,17 +239,19 @@ const Quiz = (props: any) => {
 
             if (!technologyQuerySnapshot.empty) {
                 const technologyDoc = technologyQuerySnapshot.docs[0];
-                const technologyDocData = technologyDoc.data();
-
-                // 解説が存在するか確認
-                if ("解説" in technologyDocData) {
-                    // 解説が存在する場合
-                    setQuestionExplanation(technologyDocData['解説']);
-                    console.log("解説が存在します:", technologyDocData['解説']);
-                } else {
-                    // 解説が存在しない場合
-                    setQuestionExplanation(null);
-                    console.log("解説が存在しません");
+                if (technologyDoc) {
+                    const technologyDocData = technologyDoc.data();
+                    //const [value, setValue] = useState<itemType | null>(itemType[0]);
+                    // 解説が存在するか確認
+                    if ("解説" in technologyDocData) {
+                        // 解説が存在する場合
+                        setQuestionExplanation(technologyDocData['解説']);
+                        console.log("解説が存在します:", technologyDocData['解説']);
+                    } else {
+                        // 解説が存在しない場合
+                        setQuestionExplanation(null);
+                        console.log("解説が存在しません");
+                    }
                 }
             } else {
                 console.error("指定された問題IDに対応するTechnologyドキュメントが見つかりませんでした");
