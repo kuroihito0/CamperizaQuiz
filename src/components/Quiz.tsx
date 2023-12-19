@@ -22,8 +22,8 @@ const Quiz = (props: any) => {
 
     const [selectedQuestionIDs, setSelectedQuestionIDs] = useState<string[]>([]);
 
-    const test = () =>{
-        console.log(messages,selectedQuestionIDs)
+    const test = () => {
+        console.log(messages, selectedQuestionIDs)
 
     }
     test()
@@ -69,7 +69,32 @@ const Quiz = (props: any) => {
         if (!isSubmitted) {
             setIsSubmitted(true);
             console.log('isSubmitted:', isSubmitted);
+
+            // 10問答えた後、最後の問題IDに対応する解説を取得
+            if (selectedQuestionIDs.length === 10) {
+                const lastQuestionID = selectedQuestionIDs[selectedQuestionIDs.length - 1];
+                fetchQuestionExplanation(lastQuestionID);
+            }else{
+                console.log("え！")
+            }
+
             await handleSub();
+        }
+    };
+
+    const Kaisetsu = async () => {
+        console.log('isSubmitted:', isSubmitted);
+        if (!isSubmitted) {
+            setIsSubmitted(true);
+            console.log('isSubmitted:', isSubmitted);
+
+            // 10問答えた後、最後の問題IDに対応する解説を取得
+            if (selectedQuestionIDs.length === 10) {
+                const lastQuestionID = selectedQuestionIDs[selectedQuestionIDs.length - 1];
+                fetchQuestionExplanation(lastQuestionID);
+            }else{
+                console.log("え！")
+            }
         }
     };
 
@@ -133,7 +158,7 @@ const Quiz = (props: any) => {
             const 新しい問題データ = {
                 questionText: 問題文,
                 questionID: 問題ID,
-                questionEx:解説,
+                questionEx: 解説,
                 answerOptions: [
                     { answerText: ア, isCorrect: false, number: 1 },
                     { answerText: イ, isCorrect: false, number: 2 },
@@ -161,53 +186,81 @@ const Quiz = (props: any) => {
     const [score, setScore] = useState(0);
 
 
-const addIncorrectQuestion = async (questionID: any) => {
-    try {
-        const technologyQuery = query(collection(db, "Technology"), where("問題ID", "==", questionID));
-        const technologyQuerySnapshot = await getDocs(technologyQuery);
+    const addIncorrectQuestion = async (questionID: any) => {
+        try {
+            const technologyQuery = query(collection(db, "Technology"), where("問題ID", "==", questionID));
+            const technologyQuerySnapshot = await getDocs(technologyQuery);
 
-        if (!technologyQuerySnapshot.empty) {
-            // ドキュメントが存在する場合
-            const technologyDoc = technologyQuerySnapshot.docs[0];
+            if (!technologyQuerySnapshot.empty) {
+                // ドキュメントが存在する場合
+                const technologyDoc = technologyQuerySnapshot.docs[0];
 
-            if (technologyDoc) {
+                if (technologyDoc) {
+                    const technologyDocData = technologyDoc.data();
+
+                    // InCorrectCountが存在するか確認
+                    if ("InCorrectCount" in technologyDocData) {
+                        // ドキュメントにInCorrectCountが存在する場合、+1して更新
+                        const currentCount = technologyDocData['InCorrectCount'];
+                        const newCount = currentCount + 1;
+
+                        // 更新するデータ
+                        const updatedData = {
+                            InCorrectCount: newCount,
+                            // 他に更新したいフィールドがあればここに追加
+                        };
+
+                        // データを更新
+                        await setDoc(technologyDoc.ref, updatedData, { merge: true });
+                        console.log("不正解の問題が正常に更新されました");
+                    } else {
+                        // InCorrectCountが存在しない場合、追加して初期値を1にする
+                        const updatedData = {
+                            InCorrectCount: 1,
+                            // 他に更新したいフィールドがあればここに追加
+                        };
+
+                        // データを更新
+                        await setDoc(technologyDoc.ref, updatedData, { merge: true });
+                        console.log("InCorrectCountが存在しないため、追加して初期化しました");
+                    }
+                } else {
+                    console.error("指定された問題IDに対応するTechnologyドキュメントが見つかりませんでした");
+                }
+            }
+        } catch {
+            console.log("^-^")
+        }
+    }
+
+    const [questionExplanation, setQuestionExplanation] = useState<string | null>(null);
+    const fetchQuestionExplanation = async (questionID: string) => {
+        try {
+            console.log("fetchQuestionExplanation 関数が呼び出されました");
+            const technologyQuery = query(collection(db, 'Technology'), where("問題ID", "==", questionID));
+            const technologyQuerySnapshot = await getDocs(technologyQuery);
+
+            if (!technologyQuerySnapshot.empty) {
+                const technologyDoc = technologyQuerySnapshot.docs[0];
                 const technologyDocData = technologyDoc.data();
 
-                // InCorrectCountが存在するか確認
-                if ("InCorrectCount" in technologyDocData) {
-                    // ドキュメントにInCorrectCountが存在する場合、+1して更新
-                    const currentCount = technologyDocData['InCorrectCount'];
-                    const newCount = currentCount + 1;
-
-                    // 更新するデータ
-                    const updatedData = {
-                        InCorrectCount: newCount,
-                        // 他に更新したいフィールドがあればここに追加
-                    };
-
-                    // データを更新
-                    await setDoc(technologyDoc.ref, updatedData, { merge: true });
-                    console.log("不正解の問題が正常に更新されました");
+                // 解説が存在するか確認
+                if ("解説" in technologyDocData) {
+                    // 解説が存在する場合
+                    setQuestionExplanation(technologyDocData['解説']);
+                    console.log("解説が存在します:", technologyDocData['解説']);
                 } else {
-                    // InCorrectCountが存在しない場合、追加して初期値を1にする
-                    const updatedData = {
-                        InCorrectCount: 1,
-                        // 他に更新したいフィールドがあればここに追加
-                    };
-
-                    // データを更新
-                    await setDoc(technologyDoc.ref, updatedData, { merge: true });
-                    console.log("InCorrectCountが存在しないため、追加して初期化しました");
+                    // 解説が存在しない場合
+                    setQuestionExplanation(null);
+                    console.log("解説が存在しません");
                 }
             } else {
                 console.error("指定された問題IDに対応するTechnologyドキュメントが見つかりませんでした");
             }
+        } catch (error) {
+            console.error("問題の解説の取得に失敗:", error);
         }
-    }catch{
-        console.log("^-^")
-    }
-}
-
+    };
 
     const handleAnswerButtonClick = (isCorrect: any, questionID: any) => {
         setSelectedQuestionIDs((prevIDs) => {
@@ -228,7 +281,7 @@ const addIncorrectQuestion = async (questionID: any) => {
             addIncorrectQuestion(incorrectQuestionId);
             console.log("不正解です");
         }
-    
+
         const nextQuestion = currentQuestion + 1;
         if (nextQuestion < 10) {
             setCurrentQuestion(nextQuestion);
@@ -323,8 +376,17 @@ const addIncorrectQuestion = async (questionID: any) => {
                             </ul>
                         </div>
                     )}
+                    <h3>最後の問題解説:</h3>
+                    {questionExplanation && (
+                        <div>
+                            <h3>最後の問題解説:</h3>
+                            <p>{questionExplanation}</p>
+                        </div>
+                    )}
+
                     <div className="border"></div>
                     <button onClick={handleSubmission} disabled={isSubmitted} className='Quiz_button '>送信</button>
+                    <button onClick={Kaisetsu} disabled={isSubmitted} className='Quiz_button '>解説</button>
                     <Link to="/" className='Quiz_button2 '>ホーム</Link>
 
                 </h1>)
