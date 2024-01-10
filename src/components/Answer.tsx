@@ -50,7 +50,6 @@ const Answer = ({ handleAnswerButtonClick, questions, currentQuestion, getModani
             }
         } catch (error) {
             console.error('解説の取得に失敗しました:', error);
-            return '解説の取得に失敗しました';
         }
     };
 
@@ -84,7 +83,6 @@ const Answer = ({ handleAnswerButtonClick, questions, currentQuestion, getModani
                             {/* 解説が存在する場合に表示 */}
                             {questionExplanations.length > 0 && (
                                 <div>
-                                    <h3>解説</h3>
                                     <ul>
                                         {questionExplanations.map((explanation, index) => (
                                             <li key={index}>{explanation}</li>

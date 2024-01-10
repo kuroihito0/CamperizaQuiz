@@ -289,71 +289,8 @@ const Quiz = (props: any) => {
             props.getPointValue(score);
         }
     };
-
-    /*const addIncorrectQuestion2 = async (incorrectQuestionId: any) => {
-        try {
-            const stringId = String(incorrectQuestionId);
-            const docRef = doc(db, 'InCorrect', stringId);
-
-            const docSnapshot = await getDoc(docRef);
-
-            if (docSnapshot.exists()) {
-                const currentCount = docSnapshot.data()['count'] || 0;
-                const newCount = currentCount + 1;
-
-                const updatedData = {
-                    count: newCount,
-                    createAt: serverTimestamp(),
-                    user: auth.currentUser?.displayName,
-                };
-
-                await setDoc(docRef, updatedData);
-
-                console.log('不正解の問題が正常に送信・更新されました');
-            } else {
-                const data = {
-                    incorrectQuestionId: incorrectQuestionId,
-                    count: 1,
-                    createAt: serverTimestamp(),
-                    user: auth.currentUser?.displayName,
-                };
-
-                await setDoc(docRef, data);
-
-                console.log('新しい不正解の問題が正常に送信されました');
-            }
-        } catch (error) {
-            console.error('不正解の問題の送信・更新に失敗:', error);
-        }
-    };*/
-
-    /*    const getRandomDocument = async () => {
-            try {
-                // コレクション内のすべてのドキュメントを取得
-                const querySnapshot = await getDocs(collection(db, 'messages'));
-    
-                // ランダムなインデックスを生成
-                const randomIndex = Math.floor(Math.random() * querySnapshot.size);
-    
-                // ランダムなドキュメントを選択
-                const randomDoc = querySnapshot.docs[randomIndex];
-    
-                if (randomDoc) {
-                    return randomDoc.data();
-                } else {
-                    // ドキュメントが存在しない場合の処理
-                    return null;
-                }
-            } catch (error) {
-                return null;
-            }
-        };
-    */
-
-
-
     return (
-        <div className="App">
+        <div className='body' style={{ maxWidth: '1300px', margin: '0 auto', overflowY: 'auto', height: '100vh' }}>
             {showScore ? (
                 <h1>
                     お疲れ様でした!
@@ -375,7 +312,6 @@ const Quiz = (props: any) => {
                             </ul>
                         </div>
                     )}
-                    <h3>最後の問題解説:</h3>
                     {questionExplanation && (
                         <div>
                             <h3>最後の問題解説:</h3>
@@ -386,7 +322,7 @@ const Quiz = (props: any) => {
                     <div className="border"></div>
                     <button onClick={handleSubmission} disabled={isSubmitted} className='Quiz_button '>送信</button>
                     <button onClick={Kaisetsu} disabled={isSubmitted} className='Quiz_button '>解説</button>
-                    <Link to="/" className='Quiz_button2 '>ホーム</Link>
+                    <Link to="/Home" className='Quiz_button2 '>ホーム</Link>
 
                 </h1>)
                 : (

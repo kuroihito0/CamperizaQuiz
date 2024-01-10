@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
-
-import { db } from '../firebase-config';
+import { Link } from 'react-router-dom';
+import { db } from '../firebase-config'; 
 
 const IncorrectQuestions = () => {
     const [incorrectQuestions, setIncorrectQuestions] = useState<any[]>([]);
@@ -30,7 +30,12 @@ const IncorrectQuestions = () => {
     }, []);
 
     return (
-        <div className='body'>
+        <div className='body' style={{ maxWidth: '1300px', margin: '0 auto', overflowY: 'auto', height: '100vh' }}>
+                <ul>
+                    <li>
+                        <Link to="/Home">ホーム</Link>
+                    </li>
+                </ul>
             <h2>皆が間違えた問題</h2>
             <ul>
                 {incorrectQuestions.map((question, index) => (
