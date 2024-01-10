@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect,useState } from 'react';
+import { BrowserRouter as Router, Route, Routes,Link } from 'react-router-dom';
 
-import { motion } from "framer-motion"
+import {motion} from "framer-motion"
+
+import "../styles/Home.css";
 
 function Home() {
     const [isVisible, setIsVisible] = useState(false);
@@ -21,10 +23,10 @@ function Home() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 11 }}
                     transition={{ duration: 1 }}>
-                    <div className='Home_button' id="Home_button1"><Link to="Quiz"><button>始める</button></Link></div>
-                    <div className='Home_button' id="Home_button2"><Link to="Incorrect"><button>間違えやすい問題</button></Link></div>
-                    <div className='Home_button' id="Home_button3"><Link to="Importer"><button>インポート</button></Link></div>
-                    <div className='Home_button' id="Home_button4"><Link to="WordHint"><button>用語集</button></Link></div>
+                <div><Link to="../Quiz" className='answer_box2 answer_question2'>始める</Link></div>
+                <div><Link to="../Incorrect" className='answer_box2 answer_question2'>間違えやすい問題</Link></div>
+                <div><Link to="../Importer" className='answer_box2 answer_question2'>インポート</Link></div>
+                <div><Link to="../WordHint" className='answer_box2 answer_question2'>用語集</Link></div>
                 </motion.div>
             )}
         </div>
