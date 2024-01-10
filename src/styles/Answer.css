@@ -1,59 +1,85 @@
-.body{
-    width: 100vw;
-    height: 100vh;
-    background: rgba(255, 255, 222, 1);
-}
-.question{
-    text-align:center;
-    padding:30px 0;
+.answer_question {
+    text-align: center;
+    padding: 10px 0;
     font-family: fantasy;
-    font-size: 2vmax;
+    font-size: 200%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-ul{
-        list-style:none;
-}
-.title{
-        font-family: 'Trebuchet MS',sans-serif;
-        text-align: center;
-    }
-
-.question2{
-    text-align:center;
-    padding:20px 0
+ul {
+    list-style: none;
 }
 
-.box {
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    color: #000;/*文字色*/
-    background: #FFF;
-    border: solid 2px black;
-    border-width: 5pt;
-    border-radius: 10px;/*角の丸み*/
-    margin: auto;
-    height: 150px;
+.answer_title {
+    font-family: 'Trebuchet MS', sans-serif;
     text-align: center;
-    width: 70%;
-    margin-bottom: 50px;
+    color: black;
+    font-size: 20px;
+}
+
+.answer_question2 {
+    font-size: 130%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.answer_btn-border:hover {
+    color: #fff;
+    background: #000;
+}
+
+.answer_btn-border {
+    border: 2px solid #000;
+    border-radius: 0;
 
 }
 
-.box2 {
-    float: left;
+.answer_box1 {
+    float: center;
     font-weight: bold;
-    color: #000;/*文字色*/
+    color: #000;
+    /*文字色*/
     border: solid 2px black;
     border-width: 5pt;
-    border-radius: 10px;/*角の丸み*/
+    border-radius: 10px;
+    /*角の丸み*/
     background: #FFF;
     margin: auto;
-    width: 40%;
-    margin-bottom: 25px;
-    margin-right: 120px;
-    
+    width: 70%;
+    margin-bottom: 6%;
+    height: 250px;
+}
+
+.answer_box2 {
+    float: left;
+    /* 左寄せ */
+    font-weight: bold;
+    /* フォントの太さ */
+    color: #000;
+    /* 文字色 */
+    border-width: 5pt;
+    /* ボーダーの太さ */
+    border-radius: 10px;
+    /* ボーダーの角の丸み */
+    border: solid 2px black;
+    /* ボーダーのスタイル（黒色） */
+    background: #FFF;
+    /* 背景色（白色） */
+    width: 300px;
+    /* 幅が親要素の30% */
+    height: 110px;
+    margin-bottom: 20px;
+    /* 下方向のマージン */
+    margin-left: 40px;
+    /* 左方向のマージン */
+}
+
+.btn,
+a.btn,
+button.btn {
+    color: #212529;
 }

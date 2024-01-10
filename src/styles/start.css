@@ -1,0 +1,64 @@
+.start_box {
+    position: relative;
+    /* 今の位置を基準 */
+    bottom: 150px;
+    /* 上から10px */
+    left: 3px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 222, 1);
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    /* テキストの色 */
+    font-size: 15px;
+    /* テキストのフォントサイズ */
+}
+
+.start_title {
+    text-align: center;
+    height: 60px;
+    line-height: 10px;
+    color: white;
+}
+
+.start_btn-border:hover {
+    color: #fff;
+    background: #000;
+    
+}
+
+html {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 62.5%;
+    
+    /*rem算出をしやすくするために*/
+}
+
+.start_button{
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.5;
+    position: absolute;
+    left: 35%;
+    padding: 2rem 6rem;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    color: #212529;
+    border-radius: 3.5rem;
+    border: 3px solid;
+    width: 30%;
+}

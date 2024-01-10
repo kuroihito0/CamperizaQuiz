@@ -1,9 +1,9 @@
 import {auth,provider} from "../firebase-config";
 import {signInWithPopup} from "firebase/auth";
-
+import ipa from "../img/IPA.png";
+import"../styles/Auth.css"
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
-
 
 export const Auth = (props) =>{
     const {setIsAuth} = props;
@@ -19,7 +19,7 @@ export const Auth = (props) =>{
 
     //タイトル画面
     return <div className="auth">
-        <p>Sign In With Google To Continue</p>
-        <button onClick={signInWithGoogle}>Sign In With Google</button>
+        <img src={ipa} alt="aa" />
+        <button className="Auth_btn Auth_btn-radius-gradient Auth_button" onClick={signInWithGoogle}>ログイン</button>
     </div>
 }

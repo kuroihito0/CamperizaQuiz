@@ -1,0 +1,12 @@
+
+.Home_button-area {
+    flex: 1; /* 幅を均等に分ける */
+    display: flex;
+    justify-content: center; /* 中央寄せ */
+    align-items: center; /* 中央寄せ */
+}
+
+.Home_button {
+    padding: 10px 20px;
+    font-size: 16px;
+}

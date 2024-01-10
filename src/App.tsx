@@ -5,9 +5,15 @@ import { BrowserRouter as Router, Route, Routes,Link } from 'react-router-dom';
 
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
-
 import Home from "./components/Home";
 import Quiz from "./components/Quiz";
+import Title from "./components/title";
+import Start from "./components/start";
+import Incorrect from './components/Incorrect';
+import Importer from './components/Importer'
+import WordHint from './components/WordHint';
+
+
 
 
 function App() {
@@ -26,8 +32,13 @@ function App() {
 
   return (
     <Routes>
-    <Route path="/" element={<Home />}/>
-    <Route path="/Quiz" element={<Quiz />}/>
+    <Route path="/" element={<Title/>}/>
+    <Route path="/Quiz" element={<Quiz />}></Route>
+    <Route path="/Home" element={<Home />}></Route>
+    <Route path='/start' element={<Start />}></Route>
+    <Route path='/Incorrect' element={<Incorrect/>}></Route>
+    <Route path='/Importer' element={<Importer />}></Route>
+    <Route path='/WordHint' element={<WordHint />}></Route>
 </Routes>
   );
 
