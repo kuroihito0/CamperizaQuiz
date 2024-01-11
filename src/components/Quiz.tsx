@@ -72,29 +72,50 @@ const Quiz = (props: any) => {
 
             await handleSub();
         }
+    };/*
+    const setQuestionTexts = (textsArray: string[]) => {
+        // textsArrayが空でない場合、問題文が格納された配列をステートにセット
+        if (textsArray.length > 0) {
+            setQuestionTextsArray(textsArray);
+        }
     };
-
-    const Kaisetsu = async () => {
+/*
+    const Kaisetsu = async (questionText: string, explanation: string) => {
         console.log('isSubmitted:', isSubmitted);
         if (!isSubmitted) {
             setIsSubmitted(true);
             console.log('isSubmitted:', isSubmitted);
-
-            // 10問答えた後、最後の問題IDに対応する解説を取得
-            if (selectedQuestionIDs.length === 10) {
-                const lastQuestionID = selectedQuestionIDs[selectedQuestionIDs.length - 1];
-                if (lastQuestionID) {
-                    fetchQuestionExplanation(lastQuestionID);
+    
+            // 解説を格納するための配列を用意
+            const explanationsArray: string[] = [];
+            // 問題文を格納するための配列を用意
+            const questionTextsArray: string[] = [];
+    
+            // 10問答えた後、各問題の解説と問題文を取得
+            for (const questionID of selectedQuestionIDs) {
+                // 解説と問題文を取得
+                const { explanation, questionText } = await fetchQuestionData(questionID);
+    
+                // 取得した解説があれば配列に追加
+                if (explanation !== undefined) {
+                    explanationsArray.push(explanation);
                 }
-                else {
-                    console.error("最後の問題IDが存在しません");
+    
+                // 取得した問題文があれば配列に追加
+                if (questionText !== undefined) {
+                    questionTextsArray.push(questionText);
                 }
-            } else {
-                console.log("え！")
             }
+    
+            // 解説と問題文が格納された配列をステートにセット
+            setQuestionExplanation(explanationsArray.join('\n'));
+            setQuestionTexts(questionTextsArray);
+    
+            // 問題文と解説をコンソールに出力
+            console.log('問題文:', questionText);
+            console.log('解説:', explanation);
         }
-    };
-
+    };*/
     const handleSub = async () => {
         try {
             const userName = auth.currentUser?.displayName;
@@ -230,55 +251,66 @@ const Quiz = (props: any) => {
         }
     }
 
-    const [questionExplanation, setQuestionExplanation] = useState<string | null>(null);
-    const fetchQuestionExplanation = async (questionID: string) => {
+
+    const fetchQuestionExplanation = async (questionID: string): Promise<string | undefined> => {
         try {
             console.log("fetchQuestionExplanation 関数が呼び出されました");
             const technologyQuery = query(collection(db, 'Technology'), where("問題ID", "==", questionID));
             const technologyQuerySnapshot = await getDocs(technologyQuery);
-
-            if (!technologyQuerySnapshot.empty) {
+    
+            if (!technologyQuerySnapshot.empty) { 
                 const technologyDoc = technologyQuerySnapshot.docs[0];
                 if (technologyDoc) {
                     const technologyDocData = technologyDoc.data();
-                    //const [value, setValue] = useState<itemType | null>(itemType[0]);
+    
                     // 解説が存在するか確認
                     if ("解説" in technologyDocData) {
                         // 解説が存在する場合
-                        setQuestionExplanation(technologyDocData['解説']);
+                        const explanations = Array.isArray(technologyDocData['解説']) ? technologyDocData['解説'] : [technologyDocData['解説']];
                         console.log("解説が存在します:", technologyDocData['解説']);
+                        return explanations.join('\n');
                     } else {
                         // 解説が存在しない場合
-                        setQuestionExplanation(null);
                         console.log("解説が存在しません");
+                        return undefined;
                     }
                 }
             } else {
                 console.error("指定された問題IDに対応するTechnologyドキュメントが見つかりませんでした");
+                return undefined;
             }
         } catch (error) {
             console.error("問題の解説の取得に失敗:", error);
+            return undefined;
         }
+        // すべてのコードパスで値を返すようにするために、最後に undefined を返す
+        return undefined;
     };
 
-    const handleAnswerButtonClick = (isCorrect: any, questionID: any) => {
+    const [explanations, setExplanations] = useState<string[]>([]);
+
+    const handleAnswerButtonClick = async (isCorrect: any, questionID: any) => {
         setSelectedQuestionIDs((prevIDs) => {
-            // prevIDs を使用して新しい状態を計算
             const newIDs = [...prevIDs, questionID];
-
-            // 新しい状態をコンソールに出力
             console.log(newIDs);
-
             return newIDs;
         });
+
+        // 現在の質問IDに対する解説を取得
+        const explanation = await fetchQuestionExplanation(questionID);
+
+        // 解説をステートに保存
+        setExplanations((prevExplanations) => [...prevExplanations, explanation || '']);
 
         if (isCorrect) {
             setScore((prevScore) => prevScore + 1);
             console.log("正解です");
+            alert(`正解です😎\n解説: ${explanation || '解説がありません。'}`)
         } else {
             const incorrectQuestionId = questionID;
             addIncorrectQuestion(incorrectQuestionId);
             console.log("不正解です");
+            alert(`不正解です😛\n解説: ${explanation || '解説がありません。'}`)
         }
 
         const nextQuestion = currentQuestion + 1;
@@ -326,7 +358,6 @@ const Quiz = (props: any) => {
             console.error('不正解の問題の送信・更新に失敗:', error);
         }
     };*/
-
     /*    const getRandomDocument = async () => {
             try {
                 // コレクション内のすべてのドキュメントを取得
@@ -352,44 +383,45 @@ const Quiz = (props: any) => {
 
 
 
-    return (
-        <div className="App">
-            {showScore ? (
-                <h1>
-                    お疲れ様でした!
-                    <br />
-                    <span className="correct">10問中<span className='score'>{score}問</span>正解です</span>
-                    <div className="border"></div>
-                    {showScore && (
-                        <div>
-                            <p>ランキング:TOP5</p>
-                            <ul>
-                                {pointlist
-                                    .slice(0, 5)
-                                    .map((item, index) => (
-
-                                        <li key={index}>
-                                            <span className="player">プレイヤー名: {item.user}, スコア: {item.text}</span>
-                                        </li>
-                                    ))}
-                            </ul>
-                        </div>
-                    )}
-                    <h3>最後の問題解説:</h3>
-                    {questionExplanation && (
-                        <div>
-                            <h3>最後の問題解説:</h3>
-                            <p>{questionExplanation}</p>
-                        </div>
-                    )}
-
-                    <div className="border"></div>
-                    <button onClick={handleSubmission} disabled={isSubmitted} className='Quiz_button '>送信</button>
-                    <button onClick={Kaisetsu} disabled={isSubmitted} className='Quiz_button '>解説</button>
-                    <Link to="/" className='Quiz_button2 '>ホーム</Link>
-
-                </h1>)
-                : (
+        return (
+            <div className="App">
+                {showScore ? (
+                    <h1>
+                        お疲れ様でした!
+                        <br />
+                        <span className="correct">10問中<span className='score'>{score}問</span>正解です</span>
+                        <div className="border"></div>
+                        {showScore && (
+                            <div>
+                                <p>ランキング:TOP5</p>
+                                <ul>
+                                    {pointlist
+                                        .slice(0, 5)
+                                        .map((item, index) => (
+                                            <li key={index}>
+                                                <span className="player">プレイヤー名: {item.user}, スコア: {item.text}</span>
+                                            </li>
+                                        ))}
+                                </ul>
+                            </div>
+                        )}
+    
+                        {/* 解説を表示 */}
+                        {explanations.length > 0 && (
+                            <div className='Kaisetsu_Scroll'>
+                                <h4>問題解説:</h4>
+                                {explanations.map((explanation, index) => (
+                                    <h6 key={index}>{explanation}</h6>
+                                ))}
+                            </div>
+                        )}
+    
+                        <div className="border"></div>
+                        <button onClick={handleSubmission} disabled={isSubmitted} className='Quiz_button '>送信</button>
+                        <Link to="/" className='Quiz_button2 '>ホーム</Link>
+    
+                    </h1>
+                ) : (
                     <Answer
                         handleAnswerButtonClick={handleAnswerButtonClick}
                         questions={questions}
@@ -397,9 +429,9 @@ const Quiz = (props: any) => {
                         getModaniData={getModaniData}
                     />
                 )}
-        </div>
-    );
-};
+            </div>
+        );
+    };
 
 
 export default Quiz;

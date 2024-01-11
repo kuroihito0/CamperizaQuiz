@@ -1,10 +1,12 @@
 import './App.css'
+
 import { Auth } from "./components/Auth";
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
+
 import  { useState} from "react";
 import {  Route, Routes } from 'react-router-dom';
 
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
 import Quiz from "./components/Quiz";
 import Title from "./components/title";
 import Start from "./components/start";

@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import '../styles/Answer.css';
 import { motion } from "framer-motion";
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../firebase-config';
+
 
 // Fisher-Yatesアルゴリズムを使用して、配列をランダムにシャッフルする関数
 const shuffleArray = (array: any) => {
@@ -15,7 +14,6 @@ const shuffleArray = (array: any) => {
 
 const Answer = ({ handleAnswerButtonClick, questions, currentQuestion, getModaniData }: any) => {
     const [showResults, setShowResults] = useState(false);
-    const [questionExplanations, setQuestionExplanations] = useState<string[]>([]);
 
     useEffect(() => {
         // コンポーネントがマウントされたときに1回だけ実行
@@ -27,32 +25,10 @@ const Answer = ({ handleAnswerButtonClick, questions, currentQuestion, getModani
         setShowResults(true);
     };
 
-    const handleExplanationFetch = async (questionID: string) => {
-        // 問題IDに対応する解説を取得
-        const explanation = await fetchQuestionExplanation(questionID);
-        // 取得した解説を配列に追加
-        setQuestionExplanations((prevExplanations) => [...prevExplanations, explanation]);
-    };
 
     // ランダムに質問をシャッフル
     const shuffledQuestions = shuffleArray(questions);
 
-    const fetchQuestionExplanation = async (questionID:any) => {
-        try {
-            const docRef = doc(db, 'Technology', questionID);
-            const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
-                const explanation = docSnap.data()['explanation'];
-                return explanation || '解説がありません'; // explanationが存在しない場合のデフォルトメッセージ
-            } else {
-                return '問題が見つかりません';
-            }
-        } catch (error) {
-            console.error('解説の取得に失敗しました:', error);
-            return '解説の取得に失敗しました';
-        }
-    };
 
     return (
         <div className="answer_body">
@@ -74,24 +50,12 @@ const Answer = ({ handleAnswerButtonClick, questions, currentQuestion, getModani
                                         key={key}
                                         onClick={() => {
                                             handleAnswerButtonClick(answerOption.isCorrect, shuffledQuestions[currentQuestion].questionID);
-                                            handleExplanationFetch(shuffledQuestions[currentQuestion].questionID);
                                         }}
                                     >
                                         {answerOption.answerText}
                                     </motion.li>
                                 ))}
                             </ul>
-                            {/* 解説が存在する場合に表示 */}
-                            {questionExplanations.length > 0 && (
-                                <div>
-                                    <h3>解説</h3>
-                                    <ul>
-                                        {questionExplanations.map((explanation, index) => (
-                                            <li key={index}>{explanation}</li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            )}
                         </div>
                     ) : (
                         <p>Loading...</p>

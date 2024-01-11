@@ -146,3 +146,8 @@
     border-radius: 3.5rem;
     border: 3px solid;
 }
+
+.Kaisetsu_Scroll{
+    overflow-y: scroll;
+    height: 100px; 
+}
