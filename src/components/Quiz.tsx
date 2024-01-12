@@ -19,6 +19,8 @@ const Quiz = (props: any) => {
     const [pointlist, setPointlist] = useState<any[]>([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [messages, setMessages] = useState<any[]>([]);
+    
+    const [isButtonVisible, setIsButtonVisible] = useState(true);
 
     const [selectedQuestionIDs, setSelectedQuestionIDs] = useState<string[]>([]);
 
@@ -65,14 +67,16 @@ const Quiz = (props: any) => {
     }, []);
 
     const handleSubmission = async () => {
-        console.log('isSubmitted:', isSubmitted);
+        console.log('isSubmitted before:', isSubmitted);
+        console.log('isButtonVisible:', isButtonVisible);
         if (!isSubmitted) {
             setIsSubmitted(true);
-            console.log('isSubmitted:', isSubmitted)
-
+            setIsButtonVisible(false);
+            console.log('isSubmitted after:', isSubmitted);
+            console.log('isButtonVisible after:', isButtonVisible);
             await handleSub();
         }
-    };/*
+    };
     const setQuestionTexts = (textsArray: string[]) => {
         // textsArrayが空でない場合、問題文が格納された配列をステートにセット
         if (textsArray.length > 0) {
@@ -419,7 +423,7 @@ const Quiz = (props: any) => {
 
 
                     <div className="border"></div>
-                    <button onClick={handleSubmission} disabled={isSubmitted} className='Quiz_button '>送信</button>
+                    <button onClick={handleSubmission} disabled={isSubmitted} className='Quiz_button3'>送信</button>
                     <Link to="/" className='Quiz_button2 '>ホーム</Link>
 
                 </h1>)
