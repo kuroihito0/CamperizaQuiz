@@ -358,6 +358,7 @@ const Quiz = (props: any) => {
             console.error('不正解の問題の送信・更新に失敗:', error);
         }
     };*/
+
     /*    const getRandomDocument = async () => {
             try {
                 // コレクション内のすべてのドキュメントを取得
@@ -383,31 +384,31 @@ const Quiz = (props: any) => {
 
 
 
-        return (
-            <div className="App">
-                {showScore ? (
-                    <h1>
-                        お疲れ様でした!
-                        <br />
-                        <span className="correct">10問中<span className='score'>{score}問</span>正解です</span>
-                        <div className="border"></div>
-                        {showScore && (
-                            <div>
-                                <p>ランキング:TOP5</p>
-                                <ul>
-                                    {pointlist
-                                        .slice(0, 5)
-                                        .map((item, index) => (
-                                            <li key={index}>
-                                                <span className="player">プレイヤー名: {item.user}, スコア: {item.text}</span>
-                                            </li>
-                                        ))}
-                                </ul>
-                            </div>
-                        )}
-    
-                        {/* 解説を表示 */}
-                        {explanations.length > 0 && (
+    return (
+        <div className="App">
+            {showScore ? (
+                <h1>
+                    お疲れ様でした!
+                    <br />
+                    <span className="correct">10問中<span className='score'>{score}問</span>正解です</span>
+                    <div className="border"></div>
+                    {showScore && (
+                        <div>
+                            <p>ランキング:TOP5</p>
+                            <ul>
+                                {pointlist
+                                    .slice(0, 5)
+                                    .map((item, index) => (
+
+                                        <li key={index}>
+                                            <span className="player">プレイヤー名: {item.user}, スコア: {item.text}</span>
+                                        </li>
+                                    ))}
+                            </ul>
+                        </div>
+                    )}
+                                            {/* 解説を表示 */}
+                                            {explanations.length > 0 && (
                             <div className='Kaisetsu_Scroll'>
                                 <h4>問題解説:</h4>
                                 {explanations.map((explanation, index) => (
@@ -415,13 +416,14 @@ const Quiz = (props: any) => {
                                 ))}
                             </div>
                         )}
-    
-                        <div className="border"></div>
-                        <button onClick={handleSubmission} disabled={isSubmitted} className='Quiz_button '>送信</button>
-                        <Link to="/" className='Quiz_button2 '>ホーム</Link>
-    
-                    </h1>
-                ) : (
+
+
+                    <div className="border"></div>
+                    <button onClick={handleSubmission} disabled={isSubmitted} className='Quiz_button '>送信</button>
+                    <Link to="/" className='Quiz_button2 '>ホーム</Link>
+
+                </h1>)
+                : (
                     <Answer
                         handleAnswerButtonClick={handleAnswerButtonClick}
                         questions={questions}

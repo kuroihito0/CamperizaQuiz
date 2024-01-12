@@ -78,7 +78,7 @@ const onDrop = async (acceptedFiles: File[]) => {
     return (
         <div className="App">
             <ul>
-                <li><Link to="/">ホーム</Link></li>
+                <li><Link to="/Home">ホーム</Link></li>
             </ul>
             <div className='importer_download'>
                 <img src={download} alt='aaa' width={150} height={150}/>

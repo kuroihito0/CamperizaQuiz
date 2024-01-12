@@ -45,16 +45,16 @@ function Home() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 11 }}
                     transition={{ duration: 1 }}>
-                    <div className='Home_button' id="Home_button1"><Link to="Quiz"><button>始める</button></Link></div>
-                    <div className='Home_button' id="Home_button2"><Link to="Incorrect"><button>間違えやすい問題</button></Link></div>
-                    <div className='Home_button' id="Home_button3"><Link to="Importer"><button>インポート</button></Link></div>
-                    <div className='Home_button' id="Home_button4"><Link to="WordHint"><button>用語集</button></Link></div>
+                    <div><Link to="../Quiz" className='answer_box2 answer_question2'>始める</Link></div>
+                    <div><Link to="../Incorrect" className='answer_box2 answer_question2'>間違えやすい問題</Link></div>
+                    <div><Link to="../Importer" className='answer_box2 answer_question2'>インポート</Link></div>
+                    <div><Link to="../WordHint" className='answer_box2 answer_question2'>用語集</Link></div>
 
                     {/* ログアウトボタン */}
                     <div className='Home_button' id="Home_button5">
                         {user ? (
                             <>
-                                
+
                                 <button onClick={handleLogout}>ログアウト</button>
                                 <h2>ログイン中: {user.displayName || 'No Name'}</h2>
                             </>

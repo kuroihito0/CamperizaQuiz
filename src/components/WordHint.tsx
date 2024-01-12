@@ -2,7 +2,7 @@ import { collection, getDocs } from 'firebase/firestore';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { db } from '../firebase-config';
-//import { animateScroll as scroll, scroller } from 'react-scroll';
+
 import '../styles/WordHint.css'
 
 interface WordData {
@@ -48,7 +48,7 @@ function WordHint() {
         <div className="App" style={{ maxWidth: '1300px', margin: '0 auto', overflowY: 'auto', height: '100vh' }}>
             <ul>
                 <li>
-                    <Link to="/">ホーム</Link>
+                    <Link to="/Home">ホーム</Link>
                 </li>
             </ul>
 
