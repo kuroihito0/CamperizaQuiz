@@ -1,6 +1,7 @@
 import "../styles/title.css";
-import { motion, useUnmountEffect } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import title from "../img/icon.png";
 
 export default function App() {
     const [isVisible, setIsVisible] = useState(false);
@@ -17,7 +18,7 @@ export default function App() {
             setIsVisible(true);
         }, 100);
 
-        if (window.location.pathname === "/title") {
+        if (window.location.pathname === "/") {
             setTimeout(() => {
                 window.location.href = "/start";
             }, 3 * 1000);
@@ -27,10 +28,8 @@ export default function App() {
     }, []);
     return (
         <div>
-
             {isVisible && (
                 <motion.div
-                    className="box"
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{
@@ -44,12 +43,10 @@ export default function App() {
                         }
                     }}
                         >
-                        <h1 className="title">stuiz</h1>
+                        <img src={title} alt="aa" />
+
                 </motion.div>
-    )
-}
-
-        </div >
-
+                )}
+            </div >
     );
 }

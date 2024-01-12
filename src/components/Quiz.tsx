@@ -6,27 +6,33 @@ import {
     serverTimestamp,
     onSnapshot,
     query,
-    getDoc,
-    doc,
     setDoc,
-    getDocs
+    getDocs,
+    where,
 } from 'firebase/firestore';
+
 import { auth, db } from '../firebase-config';
 import '../styles/Chat.css';
+import { Link } from "react-router-dom";
 
-const Quiz = (props) => {
-
-    const [messages, setMessages] = useState([]);
-    const messagesRef = collection(db, 'messages');
-    const [pointlist, setPointlist] = useState([]);
+const Quiz = (props: any) => {
+    const [pointlist, setPointlist] = useState<any[]>([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [messages, setMessages] = useState<any[]>([]);
 
+    const [selectedQuestionIDs, setSelectedQuestionIDs] = useState<string[]>([]);
 
-    /*useEffect(() => {
+    const test = () => {
+        console.log(messages, selectedQuestionIDs)
+
+    }
+    test()
+
+    useEffect(() => {
         const unsubscribe = onSnapshot(
-            query(messagesRef, where('room', '==', room)),
+            query(collection(db, 'messages')),
             (snapshot) => {
-                let updatedMessages = [];
+                const updatedMessages: any[] = [];
                 snapshot.forEach((doc) => {
                     const data = doc.data();
                     const text = data['text'];
@@ -37,82 +43,100 @@ const Quiz = (props) => {
         );
 
         return () => unsubscribe();
-    }, [room]);
-/*
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        await addDoc(messagesRef, {
-            text: score.toString(),
-            createdAt: serverTimestamp(),
-            user: auth.currentUser?.displayName,
-            room,
-        });
-        setNewMessage('');
-    };
-*/
-
+    }, []);
 
     useEffect(() => {
-        // ランキング情報を取得するコード（pointlistを取得）
         const fetchData = async () => {
             try {
                 const querySnapshot = await getDocs(collection(db, 'Point'));
-                const pointlist = [];
+
+                const pointlist: any[] = [];
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
                     pointlist.push(data);
                 });
-                pointlist.sort((a, b) => b.text - a.text); // ポイントで降順にソート
+                pointlist.sort((a, b) => b.text - a.text);
                 setPointlist(pointlist);
             } catch (error) {
-                console.error("データの取得に失敗:", error);
+                console.error('データの取得に失敗:', error);
             }
         };
         fetchData();
     }, []);
 
-
-
     const handleSubmission = async () => {
         console.log('isSubmitted:', isSubmitted);
         if (!isSubmitted) {
             setIsSubmitted(true);
-            console.log('isSubmitted:', isSubmitted);
-            // handleSub 関数を呼び出す
+            console.log('isSubmitted:', isSubmitted)
+
             await handleSub();
         }
+    };/*
+    const setQuestionTexts = (textsArray: string[]) => {
+        // textsArrayが空でない場合、問題文が格納された配列をステートにセット
+        if (textsArray.length > 0) {
+            setQuestionTextsArray(textsArray);
+        }
     };
-
+/*
+    const Kaisetsu = async (questionText: string, explanation: string) => {
+        console.log('isSubmitted:', isSubmitted);
+        if (!isSubmitted) {
+            setIsSubmitted(true);
+            console.log('isSubmitted:', isSubmitted);
+    
+            // 解説を格納するための配列を用意
+            const explanationsArray: string[] = [];
+            // 問題文を格納するための配列を用意
+            const questionTextsArray: string[] = [];
+    
+            // 10問答えた後、各問題の解説と問題文を取得
+            for (const questionID of selectedQuestionIDs) {
+                // 解説と問題文を取得
+                const { explanation, questionText } = await fetchQuestionData(questionID);
+    
+                // 取得した解説があれば配列に追加
+                if (explanation !== undefined) {
+                    explanationsArray.push(explanation);
+                }
+    
+                // 取得した問題文があれば配列に追加
+                if (questionText !== undefined) {
+                    questionTextsArray.push(questionText);
+                }
+            }
+    
+            // 解説と問題文が格納された配列をステートにセット
+            setQuestionExplanation(explanationsArray.join('\n'));
+            setQuestionTexts(questionTextsArray);
+    
+            // 問題文と解説をコンソールに出力
+            console.log('問題文:', questionText);
+            console.log('解説:', explanation);
+        }
+    };*/
     const handleSub = async () => {
         try {
-            // ユーザー名を取得
             const userName = auth.currentUser?.displayName;
-    
+
             const data = {
                 text: score.toString(),
                 createAt: serverTimestamp(),
-                user: `${userName}`, // ユーザー名を追加
+                user: `${userName}`,
             };
-    
-            // データを送信
-            await addDoc(collection(db, "Point"), data);
-            console.log("データが正常に送信されました");
-    
-            // 他の必要な処理を追加
+
+            await addDoc(collection(db, 'Point'), data);
+            console.log('データが正常に送信されました');
         } catch (error) {
-            console.error("データの送信に失敗:", error);
+            console.error('データの送信に失敗:', error);
         }
     };
 
-
-
-
-    // Firestoreからデータを取得してランキングデータを更新
     const fetchRankingData = async () => {
         try {
             const querySnapshot = await getDocs(collection(db, 'Point'));
-            const data = [];
+            const data: any[] = [];
             querySnapshot.forEach((doc) => {
                 data.push(doc.data());
             });
@@ -123,61 +147,36 @@ const Quiz = (props) => {
         }
     };
 
-    // コンポーネントがマウントされたときにデータを取得
     useEffect(() => {
         fetchRankingData();
-        // Firestoreのデータ変更をリアルタイムで監視
-        const unsubscribe = onSnapshot(query(collection(db, 'Point')), (snapshot) => {
-            fetchRankingData(); // データが変更されたときに再度データを取得
+        const unsubscribe = onSnapshot(query(collection(db, 'Point')), () => {
+            fetchRankingData();
         });
-        return () => unsubscribe(); // コンポーネントがアンマウントされるときに監視を解除
+        return () => unsubscribe();
     }, []);
 
-    /*
-        const rankSubmit = async (e) => {
-            try{
-                e.preventDefault();
-                const querySnapshot = await getDocs(pointRef);
-                const pointlist = [];
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
-                    const playscore = data.text;
-                    const player = data.user; // "text" フィールドの値を取得
-                    console.log("プレイヤー名：",player,"スコア：",playscore);
-    
-                    pointlist.push(playscore);
-                    pointlist.sort((a, b) => b.text - a.text);
-                });
-                console.log("pointlist",dcbpointlist);
-            }catch(error){
-                console.error("データの取得に失敗！")
-            }
-            }
-        */
+    const [questions, setQuestions] = useState<any>([]);
 
-
-
-    // コンポーネント内でuseStateを使ってstateを管理
-    const [questions, setQuestions] = useState([""]);
     const getModaniData = async () => {
         const technologyCollection = collection(db, 'Technology');
         const querySnapshot = await getDocs(technologyCollection);
 
-        const 新しいQuestions = [];
+        const 新しいQuestions: any[] = [];
 
         querySnapshot.forEach((doc) => {
-            let 問題文 = doc.data().問題文;
-            let 問題ID = doc.data().問題ID;
-            let ア = doc.data().ア;
-            let イ = doc.data().イ;
-            let ウ = doc.data().ウ;
-            let エ = doc.data().エ;
-            let 解答 = doc.data().解答;
-            let 解説 = doc.data().解説;
+            const 問題文 = doc.data()['問題文'];
+            const 問題ID = doc.data()['問題ID'];
+            const ア = doc.data()['ア'];
+            const イ = doc.data()['イ'];
+            const ウ = doc.data()['ウ'];
+            const エ = doc.data()['エ'];
+            const 解答 = doc.data()['解答'];
+            const 解説 = doc.data()['解説'];
 
-            let 新しい問題データ = {
+            const 新しい問題データ = {
                 questionText: 問題文,
                 questionID: 問題ID,
+                questionEx: 解説,
                 answerOptions: [
                     { answerText: ア, isCorrect: false, number: 1 },
                     { answerText: イ, isCorrect: false, number: 2 },
@@ -186,38 +185,133 @@ const Quiz = (props) => {
                 ],
             };
 
-            // answer と answerText を比較して同じだったら isCorrect を true に設定
-            新しい問題データ.answerOptions.forEach(option => {
+            新しい問題データ.answerOptions.forEach((option: any) => {
                 if (option.number === 解答) {
                     option.isCorrect = true;
                 }
             });
             新しいQuestions.push(新しい問題データ);
         });
-        setQuestions([...新しいQuestions]); // スプレッド演5算子を使って新しい問題データの配列を渡す
+        setQuestions([...新しいQuestions]);
     };
 
-    // useEffectを使って状態が更新されたらログを出力
     useEffect(() => {
         console.log('questions ステートだ:', questions);
     }, [questions]);
-
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [showScore, setShowScore] = useState(false);
     const [score, setScore] = useState(0);
 
-    const handleAnswerButtonClick = (isCorrect, questionID) => {
-        if (isCorrect) {
-            alert('正解です');
-            setScore(score + 1);
-        } else {
-            const incorrectQuestionId = questionID; // ここで適切な問題IDを取得する必要があります
-            addIncorrectQuestion(incorrectQuestionId);
-            alert('不正解です');
+
+    const addIncorrectQuestion = async (questionID: any) => {
+        try {
+            const technologyQuery = query(collection(db, "Technology"), where("問題ID", "==", questionID));
+            const technologyQuerySnapshot = await getDocs(technologyQuery);
+
+            if (!technologyQuerySnapshot.empty) {
+                // ドキュメントが存在する場合
+                const technologyDoc = technologyQuerySnapshot.docs[0];
+
+                if (technologyDoc) {
+                    const technologyDocData = technologyDoc.data();
+
+                    // InCorrectCountが存在するか確認
+                    if ("InCorrectCount" in technologyDocData) {
+                        // ドキュメントにInCorrectCountが存在する場合、+1して更新
+                        const currentCount = technologyDocData['InCorrectCount'];
+                        const newCount = currentCount + 1;
+
+                        // 更新するデータ
+                        const updatedData = {
+                            InCorrectCount: newCount,
+                            // 他に更新したいフィールドがあればここに追加
+                        };
+
+                        // データを更新
+                        await setDoc(technologyDoc.ref, updatedData, { merge: true });
+                        console.log("不正解の問題が正常に更新されました");
+                    } else {
+                        // InCorrectCountが存在しない場合、追加して初期値を1にする
+                        const updatedData = {
+                            InCorrectCount: 1,
+                            // 他に更新したいフィールドがあればここに追加
+                        };
+
+                        // データを更新
+                        await setDoc(technologyDoc.ref, updatedData, { merge: true });
+                        console.log("InCorrectCountが存在しないため、追加して初期化しました");
+                    }
+                } else {
+                    console.error("指定された問題IDに対応するTechnologyドキュメントが見つかりませんでした");
+                }
+            }
+        } catch {
+            console.log("^-^")
         }
+    }
 
 
+    const fetchQuestionExplanation = async (questionID: string): Promise<string | undefined> => {
+        try {
+            console.log("fetchQuestionExplanation 関数が呼び出されました");
+            const technologyQuery = query(collection(db, 'Technology'), where("問題ID", "==", questionID));
+            const technologyQuerySnapshot = await getDocs(technologyQuery);
+    
+            if (!technologyQuerySnapshot.empty) { 
+                const technologyDoc = technologyQuerySnapshot.docs[0];
+                if (technologyDoc) {
+                    const technologyDocData = technologyDoc.data();
+    
+                    // 解説が存在するか確認
+                    if ("解説" in technologyDocData) {
+                        // 解説が存在する場合
+                        const explanations = Array.isArray(technologyDocData['解説']) ? technologyDocData['解説'] : [technologyDocData['解説']];
+                        console.log("解説が存在します:", technologyDocData['解説']);
+                        return explanations.join('\n');
+                    } else {
+                        // 解説が存在しない場合
+                        console.log("解説が存在しません");
+                        return undefined;
+                    }
+                }
+            } else {
+                console.error("指定された問題IDに対応するTechnologyドキュメントが見つかりませんでした");
+                return undefined;
+            }
+        } catch (error) {
+            console.error("問題の解説の取得に失敗:", error);
+            return undefined;
+        }
+        // すべてのコードパスで値を返すようにするために、最後に undefined を返す
+        return undefined;
+    };
+
+    const [explanations, setExplanations] = useState<string[]>([]);
+
+    const handleAnswerButtonClick = async (isCorrect: any, questionID: any) => {
+        setSelectedQuestionIDs((prevIDs) => {
+            const newIDs = [...prevIDs, questionID];
+            console.log(newIDs);
+            return newIDs;
+        });
+
+        // 現在の質問IDに対する解説を取得
+        const explanation = await fetchQuestionExplanation(questionID);
+
+        // 解説をステートに保存
+        setExplanations((prevExplanations) => [...prevExplanations, explanation || '']);
+
+        if (isCorrect) {
+            setScore((prevScore) => prevScore + 1);
+            console.log("正解です");
+            alert(`正解です😎\n解説: ${explanation || '解説がありません。'}`)
+        } else {
+            const incorrectQuestionId = questionID;
+            addIncorrectQuestion(incorrectQuestionId);
+            console.log("不正解です");
+            alert(`不正解です😛\n解説: ${explanation || '解説がありません。'}`)
+        }
 
         const nextQuestion = currentQuestion + 1;
         if (nextQuestion < 10) {
@@ -228,111 +322,116 @@ const Quiz = (props) => {
         }
     };
 
-    const addIncorrectQuestion = async (incorrectQuestionId) => {
+    /*const addIncorrectQuestion2 = async (incorrectQuestionId: any) => {
         try {
             const stringId = String(incorrectQuestionId);
-            const docRef = doc(db,"InCorrect",stringId);
+            const docRef = doc(db, 'InCorrect', stringId);
 
             const docSnapshot = await getDoc(docRef);
 
+            if (docSnapshot.exists()) {
+                const currentCount = docSnapshot.data()['count'] || 0;
+                const newCount = currentCount + 1;
 
-            if(docSnapshot.exists()){
-                const currentCount = docSnapshot.data().count || 0;
-                const newCount = currentCount + 1
-              // 更新するデータ
-            const updatedData = {
-                count: newCount,
-                // 他に更新したいフィールドがあればここに追加
-                createAt: serverTimestamp(),
-                user: auth.currentUser?.displayName,
-            };
+                const updatedData = {
+                    count: newCount,
+                    createAt: serverTimestamp(),
+                    user: auth.currentUser?.displayName,
+                };
 
-            // データを更新
-            await setDoc(docRef, updatedData);
+                await setDoc(docRef, updatedData);
 
-            console.log("不正解の問題が正常に送信・更新されました");
-        } else {
-            // ドキュメントが存在しない場合は新規作成
-            const data = {
-                incorrectQuestionId: incorrectQuestionId,
-                count: 1,  // 初回の不正解なので 1 からスタート
-                createAt: serverTimestamp(),
-                user: auth.currentUser?.displayName,
-            };
+                console.log('不正解の問題が正常に送信・更新されました');
+            } else {
+                const data = {
+                    incorrectQuestionId: incorrectQuestionId,
+                    count: 1,
+                    createAt: serverTimestamp(),
+                    user: auth.currentUser?.displayName,
+                };
 
-            // データを送信
-            await setDoc(docRef, data);
+                await setDoc(docRef, data);
 
-            console.log("新しい不正解の問題が正常に送信されました");
+                console.log('新しい不正解の問題が正常に送信されました');
+            }
+        } catch (error) {
+            console.error('不正解の問題の送信・更新に失敗:', error);
         }
+    };*/
+    /*    const getRandomDocument = async () => {
+            try {
+                // コレクション内のすべてのドキュメントを取得
+                const querySnapshot = await getDocs(collection(db, 'messages'));
+    
+                // ランダムなインデックスを生成
+                const randomIndex = Math.floor(Math.random() * querySnapshot.size);
+    
+                // ランダムなドキュメントを選択
+                const randomDoc = querySnapshot.docs[randomIndex];
+    
+                if (randomDoc) {
+                    return randomDoc.data();
+                } else {
+                    // ドキュメントが存在しない場合の処理
+                    return null;
+                }
+            } catch (error) {
+                return null;
+            }
+        };
+    */
 
-        // 他の必要な処理を追加
-    } catch (error) {
-        console.error("不正解の問題の送信・更新に失敗:", error);
-    }
-};
 
-    const getRandomDocument = async () => {
-        // コレクション内のすべてのドキュメントを取得
-        const querySnapshot = await getDocs(collection(db, 'messages'));
 
-        // ランダムなインデックスを生成
-        const randomIndex = Math.floor(Math.random() * querySnapshot.size);
-
-        // ランダムなドキュメントを選択
-        const randomDoc = querySnapshot.docs[randomIndex];
-        return randomDoc.data();
+        return (
+            <div className="App">
+                {showScore ? (
+                    <h1>
+                        お疲れ様でした!
+                        <br />
+                        <span className="correct">10問中<span className='score'>{score}問</span>正解です</span>
+                        <div className="border"></div>
+                        {showScore && (
+                            <div>
+                                <p>ランキング:TOP5</p>
+                                <ul>
+                                    {pointlist
+                                        .slice(0, 5)
+                                        .map((item, index) => (
+                                            <li key={index}>
+                                                <span className="player">プレイヤー名: {item.user}, スコア: {item.text}</span>
+                                            </li>
+                                        ))}
+                                </ul>
+                            </div>
+                        )}
+    
+                        {/* 解説を表示 */}
+                        {explanations.length > 0 && (
+                            <div className='Kaisetsu_Scroll'>
+                                <h4>問題解説:</h4>
+                                {explanations.map((explanation, index) => (
+                                    <h6 key={index}>{explanation}</h6>
+                                ))}
+                            </div>
+                        )}
+    
+                        <div className="border"></div>
+                        <button onClick={handleSubmission} disabled={isSubmitted} className='Quiz_button '>送信</button>
+                        <Link to="/" className='Quiz_button2 '>ホーム</Link>
+    
+                    </h1>
+                ) : (
+                    <Answer
+                        handleAnswerButtonClick={handleAnswerButtonClick}
+                        questions={questions}
+                        currentQuestion={currentQuestion}
+                        getModaniData={getModaniData}
+                    />
+                )}
+            </div>
+        );
     };
 
-    // ランダムなドキュメントを取得
-    getRandomDocument()
-        .then((data) => {
-            console.log('ランダムなドキュメントのデータ:', data);
-        })
-        .catch((error) => {
-            console.error('ドキュメントの取得に失敗:', error);
-        });
-
-    return (
-        <div className="App">
-            {showScore ? (
-                <p>
-                    お疲れ様でした!
-                    <br />
-                    <span className="correct">10問中{score}問</span>正解です
-                    <button onClick={handleSubmission} disabled={isSubmitted}>送信</button>
-                    {showScore && (
-                        <div>
-                            <ul>
-                                {pointlist
-                                    .slice(0, 5)
-                                    .map((item, index) => (
-                                        <li key={index}>
-                                            プレイヤー名: {item.user}, スコア: {item.text}
-                                        </li>
-                                    ))}
-                            </ul>
-                        </div>
-                    )}
-
-                </p>
-            ) : (
-                <Answer
-                    handleAnswerButtonClick={handleAnswerButtonClick}
-                    questions={questions}
-                    currentQuestion={currentQuestion}
-                    getModaniData={getModaniData}
-                />
-            )}
-            <div className="chat-app">
-                {messages.map((message) => (
-                    <p key={message.id}>
-                        <p>{message.text}</p>
-                    </p>
-                ))}
-            </div>
-        </div>
-    );
-};
 
 export default Quiz;

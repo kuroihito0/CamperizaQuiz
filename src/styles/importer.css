@@ -1,0 +1,36 @@
+.importer_button{
+    position: absolute;
+    bottom: 20%;
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.5;
+    position: absolute;
+    left: 40%;
+    padding: 2rem 6rem;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    color: #212529;
+    border-radius: 1rem;
+    border: 3px solid;
+}
+
+.importer_collection{
+    position: absolute;
+    top: 60%;
+    text-align: center;
+    font-size: 30px;
+}
+.importer_download{
+    position: absolute;
+    top: 20%;
+}
